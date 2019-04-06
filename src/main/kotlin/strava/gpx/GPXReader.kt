@@ -30,6 +30,8 @@ class GPXReader {
             formatXMLToJson(getResource(fileLocation))
         }
     }
+
+    fun readFileToJson(fileAsString: String): String = formatXMLToJson(fileAsString)
 }
 
 fun formatXMLToJson(xml: String): String = XML.toJSONObject(xml)

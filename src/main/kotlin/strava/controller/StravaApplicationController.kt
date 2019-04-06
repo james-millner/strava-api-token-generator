@@ -34,7 +34,7 @@ class StravaApplicationController {
         val inputStream = file.inputStream
         val xmlAsString = IOUtils.toString(inputStream, StandardCharsets.UTF_8.name())
 
-        return "t"
+        return gpxReader.readFileToJson(xmlAsString)
 
     }
 
