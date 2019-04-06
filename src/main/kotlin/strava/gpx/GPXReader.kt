@@ -1,14 +1,8 @@
-package main.kotlin
+package strava.gpx
 
 import com.google.gson.Gson
-import org.apache.commons.io.IOUtils
 import org.json.XML
 import org.springframework.stereotype.Service
-import org.springframework.util.ResourceUtils
-import java.io.FileInputStream
-import java.net.URL
-import java.nio.charset.StandardCharsets
-
 
 @Service
 class GPXReader {
@@ -48,7 +42,6 @@ fun createFromJSON(json: String): GpxObject = Gson()
                 GpxObject::class.java
         )
 
-
 fun String.pruneJsonObject(): String =
         this.replace("gpxtpx:TrackPointExtension", "trackpointextension")
                 .replace("gpxtpx:hr", "hr")
@@ -56,15 +49,6 @@ fun String.pruneJsonObject(): String =
                 .replace("xmlns:", "")
                 .replace("xsi:", "")
 
-fun getResource(resource: String): String {
-    val file = ResourceUtils.getFile(resource)
-    val inputStream = FileInputStream(file)
-    return IOUtils.toString(inputStream, StandardCharsets.UTF_8.name())
-}
 
-fun getURL(url: String): String {
-    val file = URL(url).openStream()
-    return IOUtils.toString(file, StandardCharsets.UTF_8.name())
-}
 
 

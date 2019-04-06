@@ -1,4 +1,4 @@
-package main.kotlin
+package strava.gpx
 
 data class GpxObject(val gpx: Gpx?)
 
