@@ -9,33 +9,26 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.PostMapping
+import strava.gpx.createGpxDataObjectFromXML
 import java.nio.charset.StandardCharsets
 
 
 @RestController
-class StravaApplicationController {
-
-    @Autowired lateinit var gpxReader: GPXReader
-
-    @GetMapping(value = ["/"])
-    fun index(): String {
-        return gpxReader.readFileToDataObject("classpath:strava-afternoon-ride.gpx", false).toString()
-    }
-
-    @GetMapping(value = ["/json"])
-    fun getJson(): String {
-        return gpxReader.readFileToJson("classpath:strava-afternoon-ride.gpx", false).toString()
-    }
+class StravaApplicationController(var gpxReader: GPXReader) {
 
     @PostMapping("/strava/file-upload")
     fun handleFileUpload(@RequestParam("file") file: MultipartFile,
+                         @RequestParam("outputType") outputType: String,
                          redirectAttributes: RedirectAttributes): String {
 
-        val inputStream = file.inputStream
-        val xmlAsString = IOUtils.toString(inputStream, StandardCharsets.UTF_8.name())
+        val xmlAsString = IOUtils.toString(file.inputStream, StandardCharsets.UTF_8.name())
 
-        return gpxReader.readFileToJson(xmlAsString)
-
+        return when (outputType) {
+            "json" -> gpxReader.readFileToJson(xmlAsString)
+            "xml" -> xmlAsString
+            "dataobject" -> createGpxDataObjectFromXML(xmlAsString).toString()
+            else -> throw Exception("Unsupported output type. Please select from `json`, `xml`, `dataobject` (Produces kotlin data object.toString())" )
+        }
     }
 
 }
