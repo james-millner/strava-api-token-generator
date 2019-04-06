@@ -8,7 +8,7 @@ import strava.gpx.GPXReader
 @RestController
 class StravaApplicationController {
 
-    @Autowired val gpxReader: GPXReader? = null
+    @Autowired lateinit var gpxReader: GPXReader
 
     @GetMapping(value = ["/"])
     fun index(): String {
