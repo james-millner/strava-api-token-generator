@@ -8,27 +8,17 @@ import org.springframework.util.ResourceUtils
 import java.io.FileInputStream
 import java.net.URL
 import java.nio.charset.StandardCharsets
-import javax.annotation.PostConstruct
 
 
 @Service
 class GPXReader {
 
     companion object {
-        const val PRETTY_PRINT_INDENT_FACTOR = 4
+        const val JSON_INDENT_FACTOR = 4
     }
 
-    @PostConstruct
-    fun init() {
-
-        val gpxObject = readFile("classpath:strava-afternoon-ride.gpx", false)
-
-        println(gpxObject.toString())
-
-    }
-
-    fun readFile(fileLocation: String, isURL: Boolean): GpxObject {
-        return if(isURL) {
+    fun readFileToDataObject(fileLocation: String, isURL: Boolean): GpxObject {
+        return if (isURL) {
             createFromJSON(
                     getURL(fileLocation)
             )
@@ -37,23 +27,34 @@ class GPXReader {
                     getResource(fileLocation)
             )
         }
+    }
 
+    fun readFileToJson(fileLocation: String, isURL: Boolean): String {
+        return if (isURL) {
+            formatJson(getURL(fileLocation))
+        } else {
+            formatJson(getResource(fileLocation))
+        }
     }
 }
 
+fun formatJson(json: String): String = XML.toJSONObject(json)
+        .toString(GPXReader.JSON_INDENT_FACTOR).pruneJsonObject()
+
 fun createFromJSON(json: String): GpxObject {
-    var jsonObject = XML.toJSONObject(json)
-            .toString(GPXReader.PRETTY_PRINT_INDENT_FACTOR)
+    var jsonObject = formatJson(json)
 
     return Gson()
             .fromJson(
-                    jsonObject.pruneJsonObject(),
+                    jsonObject,
                     GpxObject::class.java
             )
 }
 
 fun String.pruneJsonObject(): String =
-        this.replace("gpxtpx:", "")
+        this.replace("gpxtpx:TrackPointExtension", "trackpointextension")
+                .replace("gpxtpx:hr", "hr")
+                .replace("gpxtpx:", "")
                 .replace("xmlns:", "")
                 .replace("xsi:", "")
 
