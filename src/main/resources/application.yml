@@ -5,3 +5,8 @@ management:
     web:
       exposure:
         include: ["health", "info", "metrics", "trace", "prometheus"]
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 5MB
