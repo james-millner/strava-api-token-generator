@@ -39,17 +39,15 @@ class GPXReader {
 }
 
 fun formatJson(json: String): String = XML.toJSONObject(json)
-        .toString(GPXReader.JSON_INDENT_FACTOR).pruneJsonObject()
+        .toString(GPXReader.JSON_INDENT_FACTOR)
+        .pruneJsonObject()
 
-fun createFromJSON(json: String): GpxObject {
-    var jsonObject = formatJson(json)
+fun createFromJSON(json: String): GpxObject = Gson()
+        .fromJson(
+                formatJson(json),
+                GpxObject::class.java
+        )
 
-    return Gson()
-            .fromJson(
-                    jsonObject,
-                    GpxObject::class.java
-            )
-}
 
 fun String.pruneJsonObject(): String =
         this.replace("gpxtpx:TrackPointExtension", "trackpointextension")

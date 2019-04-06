@@ -8,7 +8,7 @@ class StravaApplication
 
 fun main(args: Array<String>) {
     val springApplication = SpringApplication(StravaApplication::class.java)
-
     springApplication.setRegisterShutdownHook(true)
+
     springApplication.run()
 }
