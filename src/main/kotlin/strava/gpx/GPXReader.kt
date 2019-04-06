@@ -13,11 +13,11 @@ class GPXReader {
 
     fun readFileToDataObject(fileLocation: String, isURL: Boolean): GpxObject {
         return if (isURL) {
-            createFromJSON(
+            createGpxDataObjectFromXML(
                     getURL(fileLocation)
             )
         } else {
-            createFromJSON(
+            createGpxDataObjectFromXML(
                     getResource(fileLocation)
             )
         }
@@ -25,20 +25,20 @@ class GPXReader {
 
     fun readFileToJson(fileLocation: String, isURL: Boolean): String {
         return if (isURL) {
-            formatJson(getURL(fileLocation))
+            formatXMLToJson(getURL(fileLocation))
         } else {
-            formatJson(getResource(fileLocation))
+            formatXMLToJson(getResource(fileLocation))
         }
     }
 }
 
-fun formatJson(json: String): String = XML.toJSONObject(json)
+fun formatXMLToJson(xml: String): String = XML.toJSONObject(xml)
         .toString(GPXReader.JSON_INDENT_FACTOR)
         .pruneJsonObject()
 
-fun createFromJSON(json: String): GpxObject = Gson()
+fun createGpxDataObjectFromXML(xml: String): GpxObject = Gson()
         .fromJson(
-                formatJson(json),
+                formatXMLToJson(xml),
                 GpxObject::class.java
         )
 
