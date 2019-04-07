@@ -10,7 +10,6 @@ import strava.gpx.createGpxDataObjectFromJSON
 import strava.gpx.readFileToJson
 import java.nio.charset.StandardCharsets
 
-
 @RestController
 class StravaApplicationController {
 
@@ -21,12 +20,11 @@ class StravaApplicationController {
 
         val xmlAsString = IOUtils.toString(file.inputStream, StandardCharsets.UTF_8.name())
 
-        return when (outputType) {
+        return when (outputType.toLowerCase()) {
             "json" -> readFileToJson(xmlAsString)
             "xml" -> xmlAsString
             "dataobject" -> createGpxDataObjectFromJSON(xmlAsString).toString()
             else -> throw Exception("Unsupported output type. Please select from `json`, `xml`, `dataobject` (Produces kotlin data object.toString())")
         }
     }
-
 }
