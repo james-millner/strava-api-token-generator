@@ -1,39 +1,37 @@
 package strava.gpx
 
-import org.apache.commons.io.IOUtils
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.springframework.util.ResourceUtils
 import test.kotlin.strava.getResource
-import java.io.FileInputStream
-import java.nio.charset.StandardCharsets
 
 internal class GPXReaderTest {
 
     @Nested
     inner class `When the GPX reader receives XML as a String` {
 
-        @Test
-        fun `the XML is successfully parsed and converted to a GPXObject`() {
+        private val expectedRideJSONAsString = getResource("classpath:successful-responses/afternoon-huddersfield-ride.json")
+        private val afternoonRideXMLString = readFileToJson(getResource("classpath:afternoon-huddersfield-ride.gpx"))
 
-            val expectedObject = createGpxDataObjectFromJSON(getResource("classpath:successful-responses/afternoon-huddersfield-ride.json"))
-            val actualObject = createGpxDataObjectFromJSON(readFileToJson(getResource("classpath:afternoon-huddersfield-ride.gpx")))
+        private val expectedObject = createGpxDataObjectFromJSON(expectedRideJSONAsString)
+        private val actualObject = createGpxDataObjectFromJSON(afternoonRideXMLString)
 
+        @BeforeEach
+        fun init() {
             assertNotNull(expectedObject)
-            assertEquals(expectedObject, actualObject)
+            assertNotNull(actualObject)
         }
 
         @Test
-        fun `the XML is successfully parsed to JSON`() {
-            val expectedObject = readFileToJson(getResource("classpath:afternoon-huddersfield-ride.gpx"))
-            val actualObject = getResource("classpath:successful-responses/afternoon-huddersfield-ride.json")
+        fun `the XML is successfully parsed and converted to a GPXObject`() =
+            assertEquals(expectedObject, actualObject)
 
-
-            assertNotNull(actualObject)
-            assertEquals(expectedObject.trim(), actualObject.trim())
-        }
+        @Test
+        fun `the XML is successfully parsed to JSON`() =
+            assertEquals(afternoonRideXMLString.trim(), expectedRideJSONAsString.trim())
 
     }
 }

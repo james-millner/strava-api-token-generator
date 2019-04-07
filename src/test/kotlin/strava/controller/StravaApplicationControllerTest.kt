@@ -1,73 +1,59 @@
 package strava.controller
 
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 import org.springframework.mock.web.MockMultipartFile
 import strava.gpx.createGpxDataObjectFromJSON
 import strava.gpx.readFileToJson
 import test.kotlin.strava.getResource
-
 
 internal class StravaApplicationControllerTest {
 
     @Nested
     inner class `When a file is received to the StravaApplicationController`() {
 
-        @Test
-        fun `the GPX is successfully parsed and converted to JSON`() {
+        private val controller = StravaApplicationController()
 
-            val expectedObject = readFileToJson(getResource("classpath:afternoon-huddersfield-ride.gpx"))
-            val actualObject = getResource("classpath:afternoon-huddersfield-ride.gpx")
-            val file = MockMultipartFile("file", "orig", "text/plain;charset=UTF-8", actualObject.toByteArray())
+        private val expectedRideJSONAsString = getResource("classpath:successful-responses/afternoon-huddersfield-ride.json")
+        private val expectedRideAsXML = getResource("classpath:afternoon-huddersfield-ride.gpx")
+        private val afternoonRideJSONString = readFileToJson(expectedRideAsXML)
 
-            val controller = StravaApplicationController()
+        private val expectedObject = createGpxDataObjectFromJSON(expectedRideAsXML)
+        private val actualObject = createGpxDataObjectFromJSON(afternoonRideJSONString)
 
-            assertEquals(expectedObject.trim(), controller.handleFileUpload(file, "json").trim())
-        }
+        private val userFile = MockMultipartFile("file", "orig", "text/plain;charset=UTF-8", expectedRideAsXML.toByteArray())
 
-        @Test
-        fun `the GPX is successfully parsed and converted to a GPXObject`() {
-
-            val actualObject = getResource("classpath:afternoon-huddersfield-ride.gpx")
-            val expectedObject = createGpxDataObjectFromJSON(actualObject)
-
-            val file = MockMultipartFile("file", "orig", "text/plain;charset=UTF-8", actualObject.toByteArray())
-
-            val controller = StravaApplicationController()
-
+        @BeforeEach
+        fun init() {
             assertNotNull(expectedObject)
-            assertEquals(expectedObject.toString(), controller.handleFileUpload(file, "dataobject"))
+            assertNotNull(actualObject)
         }
 
         @Test
-        fun `the GPX is successfully parsed and converted to XML`() {
+        fun `the GPX is successfully parsed and converted to JSON`() =
+            assertEquals(expectedRideJSONAsString.trim(), controller.handleFileUpload(userFile, "json").trim())
 
-            val actualObject = getResource("classpath:afternoon-huddersfield-ride.gpx")
+        @Test
+        fun `the GPX is successfully parsed and converted to a GPXObject`() =
+            assertEquals(expectedObject.toString(), controller.handleFileUpload(userFile, "dataobject"))
 
-            val file = MockMultipartFile("file", "orig", "text/plain;charset=UTF-8", actualObject.toByteArray())
 
-            val controller = StravaApplicationController()
-
-            assertNotNull(actualObject)
-            assertEquals(actualObject, controller.handleFileUpload(file, "xml"))
-        }
+        @Test
+        fun `the GPX is successfully parsed and converted to XML`() =
+            assertEquals(expectedRideAsXML, controller.handleFileUpload(userFile, "xml"))
 
         @Test
         fun `the outputType requested is not valid and an exception is thrown`() {
-            val actualObject = getResource("classpath:afternoon-huddersfield-ride.gpx")
-            val file = MockMultipartFile("file", "orig", "text/plain;charset=UTF-8", actualObject.toByteArray())
-
             val exception = Assertions.assertThrows(Exception::class.java) {
-                StravaApplicationController().handleFileUpload(file, "foobar")
+                controller.handleFileUpload(userFile, "foobar")
             }
 
             assertNotNull(exception)
             assertEquals("Unsupported output type. Please select from `json`, `xml`, `dataobject` (Produces kotlin data object.toString())", exception.localizedMessage)
         }
     }
-
-
 }
