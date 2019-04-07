@@ -11,5 +11,5 @@ The app currently provides a single endpoint HTTP endpoint to translate a GPX fi
 
 #### Example Request
 `
-curl -F 'file=@<localfile>.gpx' http://localhost:8080/strava/file-upload
+curl -F 'file=@<localfile>.gpx' http://localhost:8080/strava/file-upload?outputType=json
 `
