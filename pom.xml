@@ -17,6 +17,7 @@
     <properties>
         <java.version>1.8</java.version>
         <kotlin.version>1.3.21</kotlin.version>
+        <khttp.version>0.1.0</khttp.version>
         <junit.jupiter.version>5.4.1</junit.jupiter.version>
     </properties>
 
@@ -73,7 +74,11 @@
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-prometheus</artifactId>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/khttp/khttp -->
+        <dependency>
+            <groupId>khttp</groupId>
+            <artifactId>khttp</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

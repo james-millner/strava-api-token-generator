@@ -13,6 +13,6 @@ spring:
 
 
 strava:
-  accessToken: ${STRAVA_ACCESS_TOKEN}
-  clientId: ${STRAVA_CLIENT_ID}
-  clientSecret: ${STRAVA_CLIENT_SECRET}
+  accessToken: test
+  clientId: test
+  clientSecret: test
