@@ -2,23 +2,14 @@ package strava.gpx
 
 import com.google.gson.Gson
 import org.json.XML
-import org.springframework.stereotype.Service
 
-@Service
-class GPXReader {
-
-    companion object {
-        const val JSON_INDENT_FACTOR = 4
-    }
-
-    fun readFileToJson(fileAsString: String): String = formatXMLToJson(fileAsString)
-}
+fun readFileToJson(fileAsString: String): String = formatXMLToJson(fileAsString)
 
 fun formatXMLToJson(xml: String): String = XML.toJSONObject(xml)
-        .toString(GPXReader.JSON_INDENT_FACTOR)
+        .toString()
         .pruneJsonObject()
 
-fun createGpxDataObjectFromXML(xml: String): GpxObject = Gson()
+fun createGpxDataObjectFromJSON(xml: String): GpxObject = Gson()
         .fromJson(
                 formatXMLToJson(xml),
                 GpxObject::class.java
