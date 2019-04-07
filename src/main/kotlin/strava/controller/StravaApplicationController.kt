@@ -1,5 +1,6 @@
 package strava.controller
 
+import io.micrometer.core.annotation.Timed
 import org.apache.commons.io.IOUtils
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -13,6 +14,7 @@ import java.nio.charset.StandardCharsets
 @RestController
 class StravaApplicationController {
 
+    @Timed(histogram = true)
     @PostMapping("/strava/file-upload")
     fun handleFileUpload(@RequestParam("file") file: MultipartFile,
                          @RequestParam("outputType") outputType: String): String {

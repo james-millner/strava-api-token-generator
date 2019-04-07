@@ -109,9 +109,7 @@
                 <version>1.0.2</version>
                 <configuration>
                     <container>
-                        <jvmFlags>
-                            -Dspring.profiles.active=${PROFILE}
-                        </jvmFlags>
+                        <!--<jvmFlags>-Dspring.profiles.active=${PROFILE}</jvmFlags>-->
                         <useCurrentTimestamp>true</useCurrentTimestamp>
                     </container>
                     <to>
