@@ -2,16 +2,16 @@ package strava.auth
 
 import com.google.gson.Gson
 import khttp.post
+import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
-import org.springframework.web.bind.annotation.RestController
 
-@RestController
+@Controller
 class StravaAuthController(val stravaApplicationConfiguration: StravaApplicationConfiguration) {
 
     @GetMapping(value = ["/refresh-token"])
-    fun refreshToken() = buildTokenRefreshEndpoint(stravaApplicationConfiguration)
+    fun refreshToken() = "redirect:" + buildTokenRefreshEndpoint(stravaApplicationConfiguration)
 
     @GetMapping(value = ["/auth-code"])
     @ResponseBody
