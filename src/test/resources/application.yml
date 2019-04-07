@@ -13,6 +13,8 @@ spring:
 
 
 strava:
+  url: https://www.strava.com/oauth/mobile/authorize
   accessToken: test
-  clientId: test
+  clientId: 12345
   clientSecret: test
+  OAuthUrl: https://www.strava.com/oauth/token

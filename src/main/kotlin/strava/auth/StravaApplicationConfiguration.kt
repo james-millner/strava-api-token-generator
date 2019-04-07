@@ -11,5 +11,7 @@ data class StravaApplicationConfiguration(
         var accessToken: String? = null,
         var clientId: String? = null,
         var clientSecret: String? = null,
-        var authorizationCode: String? = null
+        var authorizationCode: String? = null,
+        var url: String? = null,
+        var OAuthUrl: String? = null
 )

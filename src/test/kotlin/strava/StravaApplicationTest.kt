@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.TestPropertySource
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import strava.auth.StravaApplicationConfiguration
+import strava.auth.buildTokenRefreshEndpoint
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(
@@ -28,14 +29,20 @@ class StravaApplicationTest {
 
     @Test
     fun `The application configuration properties are injected correctly`() {
+        assertNotNull(applicationConfiguration.url)
         assertNotNull(applicationConfiguration.accessToken)
         assertNotNull(applicationConfiguration.clientId)
         assertNotNull(applicationConfiguration.clientSecret)
 
+        assertEquals("https://www.strava.com/oauth/mobile/authorize", applicationConfiguration.url)
         assertEquals("test", applicationConfiguration.accessToken)
-        assertEquals("test", applicationConfiguration.clientId)
+        assertEquals("12345", applicationConfiguration.clientId)
         assertEquals("test", applicationConfiguration.clientSecret)
+    }
 
+    @Test
+    fun `Strava configuration loaded`() {
+        println(buildTokenRefreshEndpoint(applicationConfiguration))
     }
 
 }
