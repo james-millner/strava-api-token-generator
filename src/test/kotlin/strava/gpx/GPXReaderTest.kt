@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.springframework.util.ResourceUtils
+import test.kotlin.strava.getResource
 import java.io.FileInputStream
 import java.nio.charset.StandardCharsets
 
@@ -13,12 +14,6 @@ internal class GPXReaderTest {
 
     @Nested
     inner class `When the GPX reader receives XML as a String` {
-
-        fun getResource(resource: String): String {
-            val file = ResourceUtils.getFile(resource)
-            val inputStream = FileInputStream(file)
-            return IOUtils.toString(inputStream, StandardCharsets.UTF_8.name())
-        }
 
         @Test
         fun `the XML is successfully parsed and converted to a GPXObject`() {
