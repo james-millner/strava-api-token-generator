@@ -1,13 +1,11 @@
 package strava.auth
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.gson.Gson
 import khttp.post
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.RestController
-import java.lang.Exception
 
 @RestController
 class StravaAuthController(val stravaApplicationConfiguration: StravaApplicationConfiguration) {
@@ -30,14 +28,15 @@ class StravaAuthController(val stravaApplicationConfiguration: StravaApplication
 fun buildOAuthParams(stravaApplicationConfiguration: StravaApplicationConfiguration, code: String): Map<String, String> {
 
     val clientId = stravaApplicationConfiguration.clientId ?: throw Exception("Strava clientId not set correctly.")
-    val clientSecret = stravaApplicationConfiguration.clientSecret ?: throw Exception("Strava clientSecret not set correctly.")
+    val clientSecret = stravaApplicationConfiguration.clientSecret
+            ?: throw Exception("Strava clientSecret not set correctly.")
 
     return mapOf(
             "client_id" to clientId,
             "client_secret" to clientSecret,
             "code" to code,
             "grant_type" to "authorization_code"
-            )
+    )
 }
 
 fun buildTokenRefreshEndpoint(stravaApplicationConfiguration: StravaApplicationConfiguration): String {

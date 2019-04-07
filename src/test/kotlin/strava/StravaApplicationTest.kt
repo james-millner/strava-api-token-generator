@@ -16,11 +16,12 @@ import strava.auth.buildTokenRefreshEndpoint
         classes = [StravaApplicationConfiguration::class],
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
-@TestPropertySource(locations=["classpath:application.yml"])
+@TestPropertySource(locations = ["classpath:application.yml"])
 @EnableAutoConfiguration
 class StravaApplicationTest {
 
-    @Autowired lateinit var applicationConfiguration: StravaApplicationConfiguration
+    @Autowired
+    lateinit var applicationConfiguration: StravaApplicationConfiguration
 
     @Test
     fun `The application boots successfully`() {
