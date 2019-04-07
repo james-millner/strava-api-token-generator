@@ -2,11 +2,10 @@ package strava.gpx
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import test.kotlin.strava.getResource
+import strava.getResource
 
 internal class GPXReaderTest {
 
@@ -27,11 +26,11 @@ internal class GPXReaderTest {
 
         @Test
         fun `the XML is successfully parsed and converted to a GPXObject`() =
-            assertEquals(expectedObject, actualObject)
+                assertEquals(expectedObject, actualObject)
 
         @Test
         fun `the XML is successfully parsed to JSON`() =
-            assertEquals(afternoonRideXMLString.trim(), expectedRideJSONAsString.trim())
+                assertEquals(afternoonRideXMLString.trim(), expectedRideJSONAsString.trim())
 
     }
 }

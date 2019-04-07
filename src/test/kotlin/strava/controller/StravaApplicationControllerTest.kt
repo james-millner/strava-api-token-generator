@@ -7,9 +7,9 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.springframework.mock.web.MockMultipartFile
+import strava.getResource
 import strava.gpx.createGpxDataObjectFromJSON
 import strava.gpx.readFileToJson
-import test.kotlin.strava.getResource
 
 internal class StravaApplicationControllerTest {
 
@@ -35,16 +35,16 @@ internal class StravaApplicationControllerTest {
 
         @Test
         fun `the GPX is successfully parsed and converted to JSON`() =
-            assertEquals(expectedRideJSONAsString.trim(), controller.handleFileUpload(userFile, "json").trim())
+                assertEquals(expectedRideJSONAsString.trim(), controller.handleFileUpload(userFile, "json").trim())
 
         @Test
         fun `the GPX is successfully parsed and converted to a GPXObject`() =
-            assertEquals(expectedObject.toString(), controller.handleFileUpload(userFile, "dataobject"))
+                assertEquals(expectedObject.toString(), controller.handleFileUpload(userFile, "dataobject"))
 
 
         @Test
         fun `the GPX is successfully parsed and converted to XML`() =
-            assertEquals(expectedRideAsXML, controller.handleFileUpload(userFile, "xml"))
+                assertEquals(expectedRideAsXML, controller.handleFileUpload(userFile, "xml"))
 
         @Test
         fun `the outputType requested is not valid and an exception is thrown`() {
