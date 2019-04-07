@@ -114,6 +114,9 @@
                     </container>
                     <to>
                         <image>jmillnerdev/strava-app</image>
+                        <tags>
+                            <tag>${TAGS}</tag>
+                        </tags>
                     </to>
                 </configuration>
             </plugin>
