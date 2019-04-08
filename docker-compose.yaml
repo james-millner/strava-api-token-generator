@@ -1,0 +1,36 @@
+version: '3.1'
+
+services:
+  strava-app:
+    image: jmillnerdev/strava-app:${TAGS}
+    restart: always
+#    environment:
+#      PROFILE: ${PROFILE}
+    ports:
+      - "8080:8080"
+    depends_on:
+      - "mysql"
+      - "prometheus-spring"
+    labels:
+      kompose.service.type: LoadBalancer
+
+  mysql:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_DATABASE: strava
+      MYSQL_ROOT_PASSWORD: strava
+    ports:
+      - "8000:3306"
+    labels:
+      kompose.service.type: LoadBalancer
+
+  prometheus-spring:
+    image: jmillnerdev/prometheus-spring
+    restart: always
+    ports:
+      - "9090:9090"
+    labels:
+      kompose.service.type: LoadBalancer
+

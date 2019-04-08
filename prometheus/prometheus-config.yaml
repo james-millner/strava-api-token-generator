@@ -1,0 +1,14 @@
+#Global configurations
+global:
+  scrape_interval:     10s # Set the scrape interval to every 10 seconds.
+  evaluation_interval: 10s # Evaluate rules every 10 seconds.
+
+scrape_configs:
+  - job_name: 'strava-app-monitoring'
+
+    # Override the global default and scrape targets from this job every 10 seconds.
+    scrape_interval: 10s
+    metrics_path: '/actuator/prometheus'
+
+    static_configs:
+      - targets: ['strava-app:8080']

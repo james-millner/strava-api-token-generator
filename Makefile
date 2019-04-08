@@ -9,4 +9,13 @@ clean-package:
 docker-push:
 	docker push jmillnerdev/strava-app:${TAG}
 
+build-prometheus:
+	cd prometheus && \
+	docker build -t jmillnerdev/prometheus-spring . && \
+	docker push jmillnerdev/prometheus-spring
+
+docker-run:
+	TAGS=${TAG} docker-compose up
+
+
 default: clean-package
