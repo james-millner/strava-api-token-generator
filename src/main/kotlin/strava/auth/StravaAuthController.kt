@@ -2,6 +2,7 @@ package strava.auth
 
 import com.google.gson.Gson
 import khttp.post
+import mu.KLogging
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -10,6 +11,8 @@ import strava.config.StravaApplicationConfiguration
 
 @Controller
 class StravaAuthController(val stravaApplicationConfiguration: StravaApplicationConfiguration) {
+
+    companion object : KLogging()
 
     @GetMapping(value = ["/refresh-token"])
     fun refreshToken() = "redirect:" + buildTokenRefreshEndpoint(stravaApplicationConfiguration)
@@ -20,6 +23,8 @@ class StravaAuthController(val stravaApplicationConfiguration: StravaApplication
 
         val authUrl = stravaApplicationConfiguration.OAuthUrl ?: throw Exception("OAuth URL Propert not set correctly.")
         val response = post(url = authUrl, params = buildOAuthParams(stravaApplicationConfiguration, authCode))
+
+        logger.info { response.statusCode }
 
         return Gson().fromJson(response.text, RefreshTokenResponse::class.java)
     }

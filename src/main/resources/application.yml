@@ -11,7 +11,6 @@ spring:
     multipart:
       max-file-size: 5MB
 
-
 strava:
   url: ${STRAVA_BASEURL}
   accessToken: ${STRAVA_ACCESS_TOKEN}

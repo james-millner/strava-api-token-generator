@@ -1,9 +1,14 @@
 version: '3.1'
-
 services:
   strava-app:
     image: jmillnerdev/strava-app:${TAGS}
     restart: always
+    environment:
+      STRAVA_ACCESS_TOKEN: ${STRAVA_ACCESS_TOKEN}
+      STRAVA_CLIENT_ID: ${STRAVA_CLIENT_ID}
+      STRAVA_CLIENT_SECRET: ${STRAVA_CLIENT_SECRET}
+      STRAVA_URL: https://www.strava.com/oauth/mobile/authorize
+      STRAVA_OAUTH_URL: https://www.strava.com/oauth/token
     ports:
       - "8080:8080"
     depends_on:

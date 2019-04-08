@@ -15,7 +15,6 @@ build-prometheus:
 	docker push jmillnerdev/prometheus-spring
 
 docker-run:
-	TAGS=${TAG} docker-compose up
-
+	TAGS=${TAG} STRAVA_ACCESS_TOKEN=foobar STRAVA_CLIENT_ID=1234 STRAVA_CLIENT_SECRET=foobar  docker-compose up
 
 default: clean-package
