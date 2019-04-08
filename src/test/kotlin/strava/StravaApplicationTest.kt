@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.TestPropertySource
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import strava.auth.StravaApplicationConfiguration
+import strava.config.StravaApplicationConfiguration
 import strava.auth.buildTokenRefreshEndpoint
 
 @ExtendWith(SpringExtension::class)
