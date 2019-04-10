@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.springframework.mock.web.MockMultipartFile
+import strava.athlete.ActivityService
 import strava.config.StravaApplicationConfiguration
 import strava.getResource
 import strava.gpx.createGpxDataObjectFromJSON
@@ -18,9 +19,10 @@ internal class StravaApplicationControllerTest {
     @Nested
     inner class `When a file is received to the StravaApplicationController`() {
 
+        private val activityService = mockk<ActivityService>(relaxed = true, name = "ActivityService")
         private val stravaApplicationConfiguration = mockk<StravaApplicationConfiguration>(relaxed = true, name = "StravaApplicationConfiguration")
 
-        private val controller = StravaApplicationController(stravaApplicationConfiguration)
+        private val controller = StravaApplicationController(stravaApplicationConfiguration, activityService)
 
         private val expectedRideJSONAsString = getResource("classpath:successful-responses/afternoon-huddersfield-ride.json")
         private val expectedRideAsXML = getResource("classpath:afternoon-huddersfield-ride.gpx")

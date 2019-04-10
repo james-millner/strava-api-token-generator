@@ -1,10 +1,8 @@
 package strava.controller
 
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import io.micrometer.core.annotation.Timed
 import khttp.get
-import khttp.post
 import mu.KLogging
 import org.apache.commons.io.IOUtils
 import org.springframework.web.bind.annotation.GetMapping
@@ -12,20 +10,18 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
+import strava.athlete.ActivityService
 import strava.athlete.AthleteActivity
 import strava.config.StravaApplicationConfiguration
 import strava.gpx.createGpxDataObjectFromJSON
 import strava.gpx.readFileToJson
-import java.lang.StringBuilder
 import java.nio.charset.StandardCharsets
-import java.util.ArrayList
-
 
 
 @RestController
-class StravaApplicationController(val config: StravaApplicationConfiguration) {
+class StravaApplicationController(val config: StravaApplicationConfiguration, val activityService: ActivityService) {
 
-    companion object: KLogging()
+    companion object : KLogging()
 
     @Timed(histogram = true)
     @GetMapping("/strava/activities")
@@ -41,12 +37,20 @@ class StravaApplicationController(val config: StravaApplicationConfiguration) {
                 params = mapOf(
                         "before" to beforeDate.toString(),
                         "after" to afterDate.toString()
-                        ))
+                ))
 
         println(response.text)
 
-        return if(response.statusCode == 200) {
-            Gson().fromJson(response.text, Array<AthleteActivity>::class.java).toList()
+        val activitiesFound = Gson().fromJson(response.text, Array<AthleteActivity>::class.java).toList()
+
+        activitiesFound.forEach {
+            if(!activityService.activityRepo.existsById(it.upload_id!!)) {
+                activityService.activityRepo.save(it)
+            }
+        }
+
+        return if (response.statusCode == 200) {
+            activitiesFound
         } else {
             emptyList()
         }
