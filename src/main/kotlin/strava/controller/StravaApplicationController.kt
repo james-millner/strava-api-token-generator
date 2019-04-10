@@ -29,9 +29,6 @@ class StravaApplicationController(val config: StravaApplicationConfiguration, va
                       @RequestParam("before") beforeDate: Long,
                       @RequestParam("after") afterDate: Long): List<AthleteActivity> {
 
-        logger.info { beforeDate }
-        logger.info { afterDate }
-
         val response = get(url = getEndpointUrl(config.stravaApiBaseUrl, "athlete/activities"),
                 headers = buildHeaders(token),
                 params = mapOf(
@@ -39,13 +36,13 @@ class StravaApplicationController(val config: StravaApplicationConfiguration, va
                         "after" to afterDate.toString()
                 ))
 
-        println(response.text)
+        logger.debug { response.text }
 
         val activitiesFound = Gson().fromJson(response.text, Array<AthleteActivity>::class.java).toList()
 
         activitiesFound.forEach {
-            if(!activityService.activityRepo.existsById(it.upload_id!!)) {
-                activityService.activityRepo.save(it)
+            if (!activityService.activityRepo.existsById(it.upload_id!!)) {
+                activityService.save(it)
             }
         }
 

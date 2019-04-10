@@ -14,14 +14,12 @@ data class AthleteActivity(val resource_state: Number?, val athlete: Athlete?, v
 @Document
 data class Map(@Id val id: String?, val summary_polyline: String?, val resource_state: Number?)
 
-interface AthleteActivityRepository: MongoRepository<AthleteActivity, Number>
+interface AthleteActivityRepository : MongoRepository<AthleteActivity, Number>
 
-@Service//declare this class as a Service "Component specialization"
-/*injects DAO objects by constructor & implements BasicCrud interface*/
-class ActivityService(val activityRepo:  AthleteActivityRepository) {
+@Service
+class ActivityService(val activityRepo: AthleteActivityRepository) {
+    fun save(activity: AthleteActivity) =
+            activityRepo.save(activity)
 
-    fun save(activity: AthleteActivity) {
-        activityRepo.save(activity)
-    }
 }
 
