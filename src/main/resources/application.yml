@@ -10,6 +10,18 @@ spring:
   servlet:
     multipart:
       max-file-size: 5MB
+  data:
+    mongodb:
+      host: 127.0.0.1
+      port: 27017
+      database: Strava
+  jackson:
+    serialization:
+      indent-output: true
+      write-dates-as-timestamps: false
+      fail-on-empty-beans: false
+    deserialization:
+      fail-on-unknown-properties: false
 
 strava:
   url: ${STRAVA_BASEURL}

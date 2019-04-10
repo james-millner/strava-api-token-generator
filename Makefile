@@ -7,7 +7,7 @@ default: build
 
 build: clean package build-docker-image
 
-build-and-push: build docker-push
+build-and-push: build push
 
 clean:
 	mvn clean
@@ -18,7 +18,7 @@ package:
 build-docker-image:
 	TAGS=${TAG} mvn jib:dockerBuild
 
-docker-push:
+push:
 	docker push ${IMG}
 
 build-prometheus:

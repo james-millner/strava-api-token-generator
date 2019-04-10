@@ -1,5 +1,6 @@
 package strava.controller
 
+import io.mockk.mockk
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -7,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.springframework.mock.web.MockMultipartFile
+import strava.config.StravaApplicationConfiguration
 import strava.getResource
 import strava.gpx.createGpxDataObjectFromJSON
 import strava.gpx.readFileToJson
@@ -16,7 +18,9 @@ internal class StravaApplicationControllerTest {
     @Nested
     inner class `When a file is received to the StravaApplicationController`() {
 
-        private val controller = StravaApplicationController()
+        private val stravaApplicationConfiguration = mockk<StravaApplicationConfiguration>(relaxed = true, name = "StravaApplicationConfiguration")
+
+        private val controller = StravaApplicationController(stravaApplicationConfiguration)
 
         private val expectedRideJSONAsString = getResource("classpath:successful-responses/afternoon-huddersfield-ride.json")
         private val expectedRideAsXML = getResource("classpath:afternoon-huddersfield-ride.gpx")

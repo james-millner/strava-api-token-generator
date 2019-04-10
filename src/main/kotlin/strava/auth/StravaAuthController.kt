@@ -23,12 +23,10 @@ class StravaAuthController(val stravaApplicationConfiguration: StravaApplication
 
         val authUrl = stravaApplicationConfiguration.OAuthUrl ?: throw Exception("OAuth URL Propert not set correctly.")
         val response = post(url = authUrl, params = buildOAuthParams(stravaApplicationConfiguration, authCode))
-
         logger.info { response.statusCode }
 
         return Gson().fromJson(response.text, RefreshTokenResponse::class.java)
     }
-
 }
 
 fun buildOAuthParams(stravaApplicationConfiguration: StravaApplicationConfiguration, code: String): Map<String, String> {

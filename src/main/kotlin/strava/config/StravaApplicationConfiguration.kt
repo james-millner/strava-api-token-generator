@@ -13,5 +13,6 @@ data class StravaApplicationConfiguration(
         var clientSecret: String? = null,
         var authorizationCode: String? = null,
         var url: String? = null,
-        var OAuthUrl: String? = null
+        var OAuthUrl: String? = null,
+        val stravaApiBaseUrl: String = "https://www.strava.com/api/v3/"
 )
