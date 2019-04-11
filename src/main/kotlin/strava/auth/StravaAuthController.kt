@@ -8,9 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
 import strava.config.StravaApplicationConfiguration
+import strava.util.web.ifSuccessfulRequest
 
 @Controller
-class StravaAuthController(val stravaApplicationConfiguration: StravaApplicationConfiguration) {
+class StravaAuthController(val stravaApplicationConfiguration: StravaApplicationConfiguration, val tokenService: TokenService) {
 
     companion object : KLogging()
 
@@ -19,13 +20,23 @@ class StravaAuthController(val stravaApplicationConfiguration: StravaApplication
 
     @GetMapping(value = ["/auth-code"])
     @ResponseBody
-    fun authCode(@RequestParam(name = "code") authCode: String): RefreshTokenResponse {
+    fun authCode(@RequestParam(name = "code") authCode: String): RefreshTokenResponse? {
 
         val authUrl = stravaApplicationConfiguration.OAuthUrl ?: throw Exception("OAuth URL Propert not set correctly.")
         val response = post(url = authUrl, params = buildOAuthParams(stravaApplicationConfiguration, authCode))
         logger.info { response.statusCode }
 
-        return Gson().fromJson(response.text, RefreshTokenResponse::class.java)
+        return if (ifSuccessfulRequest(response)) {
+
+            val tokenResponse = Gson().fromJson(response.text, RefreshTokenResponse::class.java)
+            if(!tokenService.existsByToken(tokenResponse.access_token!!)) {
+                tokenService.save(tokenResponse)
+            }
+
+            tokenResponse
+        } else {
+            return null
+        }
     }
 }
 
