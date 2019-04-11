@@ -14,15 +14,12 @@ import strava.getResource
 import strava.gpx.createGpxDataObjectFromJSON
 import strava.gpx.readFileToJson
 
-internal class StravaApplicationControllerTest {
+internal class GPXFileControllerTest {
 
     @Nested
     inner class `When a file is received to the StravaApplicationController`() {
 
-        private val activityService = mockk<ActivityService>(relaxed = true, name = "ActivityService")
-        private val stravaApplicationConfiguration = mockk<StravaApplicationConfiguration>(relaxed = true, name = "StravaApplicationConfiguration")
-
-        private val controller = StravaApplicationController(stravaApplicationConfiguration, activityService)
+        private val controller = GPXFileController()
 
         private val expectedRideJSONAsString = getResource("classpath:successful-responses/afternoon-huddersfield-ride.json")
         private val expectedRideAsXML = getResource("classpath:afternoon-huddersfield-ride.gpx")
