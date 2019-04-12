@@ -13,3 +13,5 @@ out/
 .classpath
 .idea/
 data/
+
+docker-compose.yaml
