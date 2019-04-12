@@ -30,7 +30,7 @@ class StravaAuthController(val stravaConfiguration: StravaConfiguration, val tok
         parameters["grant_type"] = "authorization_code"
 
         val response = post(url = authUrl, params = parameters)
-        logger.info { response.statusCode }
+        logger.info { "Get authentication token: $response.statusCode" }
 
         return if (ifSuccessfulRequest(response)) {
 
@@ -56,7 +56,7 @@ class StravaAuthController(val stravaConfiguration: StravaConfiguration, val tok
         parameters["grant_type"] = "refresh_token"
 
         val response = post(url = authUrl, params = parameters)
-
+        logger.info { "Refresh token: $response.statusCode" }
         return if (ifSuccessfulRequest(response)) {
 
             //Add code to update token in DB.
