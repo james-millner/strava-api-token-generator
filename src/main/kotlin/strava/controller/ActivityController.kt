@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import strava.athlete.ActivityService
 import strava.athlete.AthleteActivity
-import strava.config.StravaApplicationConfiguration
+import strava.config.StravaConfiguration
 import strava.util.web.buildHeaders
 import strava.util.web.getEndpointUrl
 import strava.util.web.ifSuccessfulRequest
 
 @RestController
-class ActivityController(val config: StravaApplicationConfiguration, val activityService: ActivityService) {
+class ActivityController(val config: StravaConfiguration, val activityService: ActivityService) {
 
     companion object : KLogging()
 

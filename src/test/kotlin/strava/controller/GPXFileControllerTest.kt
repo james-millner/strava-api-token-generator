@@ -1,6 +1,5 @@
 package strava.controller
 
-import io.mockk.mockk
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -8,8 +7,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.springframework.mock.web.MockMultipartFile
-import strava.athlete.ActivityService
-import strava.config.StravaApplicationConfiguration
 import strava.getResource
 import strava.gpx.createGpxDataObjectFromJSON
 import strava.gpx.readFileToJson

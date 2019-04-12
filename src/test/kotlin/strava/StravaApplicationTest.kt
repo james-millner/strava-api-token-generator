@@ -8,12 +8,12 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.TestPropertySource
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import strava.config.StravaApplicationConfiguration
+import strava.config.StravaConfiguration
 import strava.auth.buildTokenRefreshEndpoint
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(
-        classes = [StravaApplicationConfiguration::class],
+        classes = [StravaConfiguration::class],
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 @TestPropertySource(locations = ["classpath:application.yml"])
@@ -21,7 +21,7 @@ import strava.auth.buildTokenRefreshEndpoint
 class StravaApplicationTest {
 
     @Autowired
-    lateinit var applicationConfiguration: StravaApplicationConfiguration
+    lateinit var stravaConfiguration: StravaConfiguration
 
     @Test
     fun `The application boots successfully`() {
@@ -30,20 +30,20 @@ class StravaApplicationTest {
 
     @Test
     fun `The application configuration properties are injected correctly`() {
-        assertNotNull(applicationConfiguration.url)
-        assertNotNull(applicationConfiguration.accessToken)
-        assertNotNull(applicationConfiguration.clientId)
-        assertNotNull(applicationConfiguration.clientSecret)
+        assertNotNull(stravaConfiguration.url)
+        assertNotNull(stravaConfiguration.accessToken)
+        assertNotNull(stravaConfiguration.clientId)
+        assertNotNull(stravaConfiguration.clientSecret)
 
-        assertEquals("https://www.strava.com/oauth/mobile/authorize", applicationConfiguration.url)
-        assertEquals("test", applicationConfiguration.accessToken)
-        assertEquals("12345", applicationConfiguration.clientId)
-        assertEquals("test", applicationConfiguration.clientSecret)
+        assertEquals("https://www.strava.com/oauth/mobile/authorize", stravaConfiguration.url)
+        assertEquals("test", stravaConfiguration.accessToken)
+        assertEquals("12345", stravaConfiguration.clientId)
+        assertEquals("test", stravaConfiguration.clientSecret)
     }
 
     @Test
     fun `Strava configuration loaded`() {
-        println(buildTokenRefreshEndpoint(applicationConfiguration))
+        println(buildTokenRefreshEndpoint(stravaConfiguration))
     }
 
 }

@@ -7,43 +7,60 @@ import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
-import strava.config.StravaApplicationConfiguration
+import strava.config.StravaConfiguration
 import strava.util.web.ifSuccessfulRequest
 
 @Controller
-class StravaAuthController(val stravaApplicationConfiguration: StravaApplicationConfiguration, val tokenService: TokenService) {
+class StravaAuthController(val stravaConfiguration: StravaConfiguration, val tokenService: TokenService) {
 
     companion object : KLogging()
 
-    @GetMapping(value = ["/refresh-token"])
-    fun refreshToken() = "redirect:" + buildTokenRefreshEndpoint(stravaApplicationConfiguration)
+    @GetMapping(value = ["/get-token"])
+    fun getToken() = "redirect:" + buildTokenRefreshEndpoint(stravaConfiguration)
 
     @GetMapping(value = ["/auth-code"])
     @ResponseBody
-    fun authCode(@RequestParam(name = "code") authCode: String): RefreshTokenResponse? {
+    fun authCode(@RequestParam(name = "code") authCode: String): RequestTokenResponse? {
 
-        val authUrl = stravaApplicationConfiguration.OAuthUrl ?: throw Exception("OAuth URL Propert not set correctly.")
-        val response = post(url = authUrl, params = buildOAuthParams(stravaApplicationConfiguration, authCode))
+        val authUrl = stravaConfiguration.OAuthUrl ?: throw Exception("OAuth URL Properly not set correctly.")
+        val response = post(url = authUrl, params = buildOAuthParams(stravaConfiguration, authCode))
         logger.info { response.statusCode }
 
         return if (ifSuccessfulRequest(response)) {
 
-            val tokenResponse = Gson().fromJson(response.text, RefreshTokenResponse::class.java)
+            val tokenResponse = Gson().fromJson(response.text, RequestTokenResponse::class.java)
             if(!tokenService.existsByToken(tokenResponse.access_token!!)) {
                 tokenService.save(tokenResponse)
             }
 
             tokenResponse
         } else {
-            return null
+            null
         }
     }
+
+    @GetMapping(value = ["/refresh-token"])
+    @ResponseBody
+    fun refreshToken(@RequestParam("token") refreshToken: String): RefreshTokenResponse? {
+
+        val authUrl = stravaConfiguration.OAuthUrl ?: throw Exception("OAuth URL Properly not set correctly.")
+        val response = post(url = authUrl, params = buildRefreshTokenParameters(stravaConfiguration, refreshToken))
+
+        return if (ifSuccessfulRequest(response)) {
+
+            //Add code to update token in DB.
+            Gson().fromJson(response.text, RefreshTokenResponse::class.java)
+        } else {
+            null
+        }
+    }
+
 }
 
-fun buildOAuthParams(stravaApplicationConfiguration: StravaApplicationConfiguration, code: String): Map<String, String> {
+fun buildOAuthParams(stravaConfiguration: StravaConfiguration, code: String): Map<String, String> {
 
-    val clientId = stravaApplicationConfiguration.clientId ?: throw Exception("Strava clientId not set correctly.")
-    val clientSecret = stravaApplicationConfiguration.clientSecret
+    val clientId = stravaConfiguration.clientId ?: throw Exception("Strava clientId not set correctly.")
+    val clientSecret = stravaConfiguration.clientSecret
             ?: throw Exception("Strava clientSecret not set correctly.")
 
     return mapOf(
@@ -54,9 +71,22 @@ fun buildOAuthParams(stravaApplicationConfiguration: StravaApplicationConfigurat
     )
 }
 
-fun buildTokenRefreshEndpoint(stravaApplicationConfiguration: StravaApplicationConfiguration): String {
-    return StringBuilder().append(stravaApplicationConfiguration.url)
-            .append("?client_id=" + stravaApplicationConfiguration.clientId)
+fun buildRefreshTokenParameters(stravaConfiguration: StravaConfiguration, refreshToken: String): Map<String, String> {
+    val clientId = stravaConfiguration.clientId ?: throw Exception("Strava clientId not set correctly.")
+    val clientSecret = stravaConfiguration.clientSecret
+            ?: throw Exception("Strava clientSecret not set correctly.")
+
+    return mapOf(
+            "client_id" to clientId,
+            "client_secret" to clientSecret,
+            "refresh_token" to refreshToken,
+            "grant_type" to "refresh_token"
+    )
+}
+
+fun buildTokenRefreshEndpoint(stravaConfiguration: StravaConfiguration): String {
+    return StringBuilder().append(stravaConfiguration.url)
+            .append("?client_id=" + stravaConfiguration.clientId)
             .append("&redirect_uri=http://localhost:8080/auth-code")
             .append("&response_type=code")
             .append("&approval_prompt=force")
