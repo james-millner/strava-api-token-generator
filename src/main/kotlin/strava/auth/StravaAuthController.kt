@@ -1,6 +1,7 @@
 package strava.auth
 
-import com.google.gson.Gson
+import com.google.gson.FieldNamingPolicy
+import com.google.gson.GsonBuilder
 import khttp.post
 import mu.KLogging
 import org.springframework.stereotype.Controller
@@ -14,32 +15,42 @@ import strava.util.web.ifSuccessfulRequest
 @Controller
 class StravaAuthController(val stravaConfiguration: StravaConfiguration, val tokenService: TokenService) {
 
-    companion object : KLogging()
+    companion object : KLogging() {
+        enum class GrantTypes {
+            AUTHORIZATION_CODE,
+            REFRESH_TOKEN
+        }
+    }
+
+    private val gson = GsonBuilder()
+            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+            .create()
 
     @GetMapping(value = ["/get-token"])
     fun getToken() = "redirect:" + buildTokenRefreshEndpoint(stravaConfiguration)
 
     @GetMapping(value = ["/auth-code"])
     @ResponseBody
-    fun authCode(@RequestParam(name = "code") authCode: String): RequestTokenResponse? {
+    fun authCode(@RequestParam(name = "code") authCode: String): StravaToken? {
 
         val authUrl = stravaConfiguration.OAuthUrl ?: throw Exception("OAuth URL Properly not set correctly.")
 
         val parameters = stravaConfiguration.getMapOfClientSecrets()
         parameters["code"] = authCode
-        parameters["grant_type"] = "authorization_code"
+        parameters["grant_type"] = GrantTypes.AUTHORIZATION_CODE.name.toLowerCase()
 
         val response = post(url = authUrl, params = parameters)
         logger.info { "Get authentication token: $response.statusCode" }
 
         return if (ifSuccessfulRequest(response)) {
 
-            val tokenResponse = Gson().fromJson(response.text, RequestTokenResponse::class.java)
-            if (!tokenService.existsByToken(tokenResponse.access_token!!)) {
-                tokenService.save(tokenResponse)
+            val stravaToken = gson.fromJson(response.text, StravaToken::class.java)
+
+            if (!tokenService.existsByToken(stravaToken.accessToken)) {
+                tokenService.save(stravaToken)
             }
 
-            tokenResponse
+            stravaToken
         } else {
             null
         }
@@ -47,20 +58,27 @@ class StravaAuthController(val stravaConfiguration: StravaConfiguration, val tok
 
     @GetMapping(value = ["/refresh-token"])
     @ResponseBody
-    fun refreshToken(@RequestParam("token") refreshToken: String): RefreshTokenResponse? {
+    fun refreshToken(@RequestParam("token") refreshToken: String): StravaToken? {
 
         val authUrl = stravaConfiguration.OAuthUrl ?: throw Exception("OAuth URL Properly not set correctly.")
 
         val parameters = stravaConfiguration.getMapOfClientSecrets()
         parameters["refresh_token"] = refreshToken
-        parameters["grant_type"] = "refresh_token"
+        parameters["grant_type"] = GrantTypes.REFRESH_TOKEN.name.toLowerCase()
 
         val response = post(url = authUrl, params = parameters)
         logger.info { "Refresh token: $response.statusCode" }
         return if (ifSuccessfulRequest(response)) {
 
+            val stravaTokenResponse = gson.fromJson(response.text, StravaToken::class.java)
             //Add code to update token in DB.
-            Gson().fromJson(response.text, RefreshTokenResponse::class.java)
+            val existingToken = tokenService.findByRefreshToken(stravaTokenResponse.refreshToken)
+                    ?: throw Exception("Token doesn't exist")
+
+            existingToken.accessToken = stravaTokenResponse.accessToken
+            existingToken.refreshToken = stravaTokenResponse.refreshToken
+
+            tokenService.save(existingToken)
         } else {
             null
         }

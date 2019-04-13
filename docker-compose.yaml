@@ -1,5 +1,6 @@
 version: '3.1'
 services:
+
   strava-app:
     image: jmillnerdev/strava-app:${TAGS}
     restart: always
@@ -12,7 +13,7 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - "mysql"
+      - "mongodb"
       - "prometheus-spring"
     labels:
       kompose.service.type: LoadBalancer
@@ -37,4 +38,3 @@ services:
       - "9090:9090"
     labels:
       kompose.service.type: LoadBalancer
-

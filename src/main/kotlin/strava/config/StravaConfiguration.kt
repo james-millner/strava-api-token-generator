@@ -29,10 +29,3 @@ fun StravaConfiguration.getMapOfClientSecrets(): MutableMap<String, String> {
     return mutableMapOf("client_id" to clientId,
             "client_secret" to clientSecret)
 }
-
-@Configuration
-class StravaApplicationConfiguration() {
-
-    @Bean
-    fun restTemplate(): RestTemplate = RestTemplate()
-}
