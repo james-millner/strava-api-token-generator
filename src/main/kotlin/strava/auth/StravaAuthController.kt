@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
 import strava.config.StravaConfiguration
-import strava.config.getMapOfClientSecrets
+import strava.config.StravaOAuthTokenType
+import strava.config.getMapOfStravaRequestParameters
 import strava.util.web.ifSuccessfulRequest
 
 @Controller
@@ -35,9 +36,10 @@ class StravaAuthController(val stravaConfiguration: StravaConfiguration, val tok
 
         val authUrl = stravaConfiguration.OAuthUrl ?: throw Exception("OAuth URL Properly not set correctly.")
 
-        val parameters = stravaConfiguration.getMapOfClientSecrets()
-        parameters["code"] = authCode
-        parameters["grant_type"] = GrantTypes.AUTHORIZATION_CODE.name.toLowerCase()
+        val parameters = stravaConfiguration.getMapOfStravaRequestParameters(
+                GrantTypes.AUTHORIZATION_CODE,
+                authCode,
+                StravaOAuthTokenType.CODE)
 
         val response = post(url = authUrl, params = parameters)
         logger.info { "Get authentication token: $response.statusCode" }
@@ -46,7 +48,7 @@ class StravaAuthController(val stravaConfiguration: StravaConfiguration, val tok
 
             val stravaToken = gson.fromJson(response.text, StravaToken::class.java)
 
-            when(tokenService.existsByRefreshToken(stravaToken.refreshToken)) {
+            when (tokenService.existsByRefreshToken(stravaToken.refreshToken)) {
                 true -> stravaToken
                 false -> tokenService.save(stravaToken)
             }
@@ -61,9 +63,10 @@ class StravaAuthController(val stravaConfiguration: StravaConfiguration, val tok
 
         val authUrl = stravaConfiguration.OAuthUrl ?: throw Exception("OAuth URL Properly not set correctly.")
 
-        val parameters = stravaConfiguration.getMapOfClientSecrets()
-        parameters["refresh_token"] = refreshToken
-        parameters["grant_type"] = GrantTypes.REFRESH_TOKEN.name.toLowerCase()
+        val parameters = stravaConfiguration.getMapOfStravaRequestParameters(
+                GrantTypes.REFRESH_TOKEN,
+                refreshToken,
+                StravaOAuthTokenType.REFRESH_TOKEN)
 
         val response = post(url = authUrl, params = parameters)
         logger.info { "Refresh token: $response.statusCode" }
