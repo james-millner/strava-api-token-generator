@@ -46,11 +46,10 @@ class StravaAuthController(val stravaConfiguration: StravaConfiguration, val tok
 
             val stravaToken = gson.fromJson(response.text, StravaToken::class.java)
 
-            if (!tokenService.existsByToken(stravaToken.accessToken)) {
-                tokenService.save(stravaToken)
+            when(tokenService.existsByRefreshToken(stravaToken.refreshToken)) {
+                true -> stravaToken
+                false -> tokenService.save(stravaToken)
             }
-
-            stravaToken
         } else {
             null
         }
