@@ -1,7 +1,6 @@
 package strava.auth
 
-import com.google.gson.FieldNamingPolicy
-import com.google.gson.GsonBuilder
+import com.google.gson.Gson
 import khttp.post
 import mu.KLogging
 import org.springframework.stereotype.Controller
@@ -14,7 +13,7 @@ import strava.config.getMapOfStravaRequestParameters
 import strava.util.web.ifSuccessfulRequest
 
 @Controller
-class StravaAuthController(val stravaConfiguration: StravaConfiguration, val tokenService: TokenService) {
+class StravaAuthController(val stravaConfiguration: StravaConfiguration, val gson: Gson, val tokenService: TokenService) {
 
     companion object : KLogging() {
         enum class GrantTypes {
@@ -22,10 +21,6 @@ class StravaAuthController(val stravaConfiguration: StravaConfiguration, val tok
             REFRESH_TOKEN
         }
     }
-
-    private val gson = GsonBuilder()
-            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-            .create()
 
     @GetMapping(value = ["/get-token"])
     fun getToken() = "redirect:" + buildTokenRefreshEndpoint(stravaConfiguration)
