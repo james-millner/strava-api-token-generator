@@ -1,4 +1,4 @@
-package strava.controller
+package strava.gpx
 
 import io.micrometer.core.annotation.Timed
 import mu.KLogging
@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
-import strava.gpx.createGpxDataObjectFromJSON
-import strava.gpx.readFileToJson
 import java.nio.charset.StandardCharsets
 
 @RestController

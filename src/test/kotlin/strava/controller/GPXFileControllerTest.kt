@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.springframework.mock.web.MockMultipartFile
 import strava.getResource
+import strava.gpx.GPXFileController
 import strava.gpx.createGpxDataObjectFromJSON
 import strava.gpx.readFileToJson
 
