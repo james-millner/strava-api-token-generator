@@ -14,15 +14,15 @@ import strava.config.StravaOAuthTokenType
 import strava.config.getMapOfStravaRequestParameters
 import strava.util.web.ifSuccessfulRequest
 
+enum class GrantTypes {
+    AUTHORIZATION_CODE,
+    REFRESH_TOKEN
+}
+
 @Controller
 class StravaAuthController(val stravaConfiguration: StravaConfiguration, val gson: Gson, val tokenService: TokenService) {
 
-    companion object : KLogging() {
-        enum class GrantTypes {
-            AUTHORIZATION_CODE,
-            REFRESH_TOKEN
-        }
-    }
+    companion object : KLogging()
 
     @GetMapping(value = ["/get-token"])
     fun getToken() = "redirect:" + buildTokenRefreshEndpoint(stravaConfiguration)

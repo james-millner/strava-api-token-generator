@@ -3,7 +3,7 @@ package strava.config
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.stereotype.Component
-import strava.auth.StravaAuthController
+import strava.auth.GrantTypes
 
 @Component
 @ConfigurationProperties(prefix = "strava")
@@ -23,7 +23,7 @@ enum class StravaOAuthTokenType {
     REFRESH_TOKEN
 }
 
-fun StravaConfiguration.getMapOfStravaRequestParameters(grantType: StravaAuthController.Companion.GrantTypes, token: String, stravaOAuthTokenType: StravaOAuthTokenType): MutableMap<String, String> {
+fun StravaConfiguration.getMapOfStravaRequestParameters(grantType: GrantTypes, token: String, stravaOAuthTokenType: StravaOAuthTokenType): MutableMap<String, String> {
 
     val clientId = clientId ?: throw Exception("Strava clientId not set correctly.")
     val clientSecret = clientSecret
