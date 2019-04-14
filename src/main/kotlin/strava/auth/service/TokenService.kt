@@ -1,7 +1,8 @@
-package strava.auth
+package strava.auth.service
 
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Service
+import strava.auth.models.StravaToken
 
 interface RequestTokenRepository : MongoRepository<StravaToken, String> {
     fun findByRefreshToken(refreshToken: String): StravaToken?
