@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import strava.activities.models.ActivityResponse
 import strava.activities.service.ActivityService
-import strava.athlete.AtheleteActivityService
-import strava.athlete.AthleteActivity
+import strava.athlete.model.AtheleteActivityService
+import strava.athlete.model.AthleteActivity
 import strava.config.StravaConfiguration
 import strava.util.web.buildHeaders
 import strava.util.web.getEndpointUrl

@@ -1,4 +1,4 @@
-package strava.gpx
+package strava.gpx.models
 
 data class GpxObject(val gpx: Gpx?)
 

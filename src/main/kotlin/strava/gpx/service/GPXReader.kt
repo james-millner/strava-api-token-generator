@@ -1,7 +1,8 @@
-package strava.gpx
+package strava.gpx.service
 
 import com.google.gson.Gson
 import org.json.XML
+import strava.gpx.models.GpxObject
 
 fun readFileToJson(fileAsString: String): String = formatXMLToJson(fileAsString)
 

@@ -1,4 +1,4 @@
-package strava.controller
+package strava.gpx
 
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -8,9 +8,8 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.springframework.mock.web.MockMultipartFile
 import strava.getResource
-import strava.gpx.GPXFileController
-import strava.gpx.createGpxDataObjectFromJSON
-import strava.gpx.readFileToJson
+import strava.gpx.service.createGpxDataObjectFromJSON
+import strava.gpx.service.readFileToJson
 
 internal class GPXFileControllerTest {
 
