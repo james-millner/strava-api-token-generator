@@ -1,22 +1,15 @@
 ### Kotlin Strava Spring Boot Application
-A simple Kotlin Spring Boot app designed for handling GPX files downloaded from Strava.
+A simple Kotlin Spring Boot app designed as abit of a playground for the Strava API.
 
-The app currently provides a single endpoint HTTP endpoint to translate a GPX file into a provided output:
-- POST: `/strava/file-upload?outputType=json`
+The app has a variety of API endpoints available to use. To find out more about these, boot up the app and head to:
 
-| Params         | Supported Values    | 
-| -------------  |:-------------:      | 
-| outputType     | json,xml,dataobject | 
+`http://localhost:8080/strava/swagger-ui.html`
 
-
-#### Example Request
-`
-curl -F 'file=@<localfile>.gpx' http://localhost:8080/strava/file-upload?outputType=json
-`
+The app is very much a work in progress and its only purpose is to be a side project to play with Kotlin.
 
 ### Build app & Docker Image
 
-1. `mvn clean package jib:dockerBuild`
+1. `mvn clean package jib:dockerBuild` | `make` - This defaults to the make build step in the provided makefile.
 2. Validate docker image has been created:
 
 ````
@@ -48,3 +41,7 @@ strava:
 
 1. `STRAVA_BASEURL=X STRAVA_ACCESS_TOKEN=J... docker-compose up`
 
+#### Kubernetes
+This step currently requires Kompose to be installed. This can be found at https://kompose.io
+
+1. `STRAVA_BASEURL=X STRAVA_ACCESS_TOKEN=J... kompose up`
