@@ -13,7 +13,7 @@ interface RequestTokenRepository : MongoRepository<StravaToken, String> {
 }
 
 @Service
-class TokenService(val tokenRepository: RequestTokenRepository)  {
+class TokenService(val tokenRepository: RequestTokenRepository) {
     fun save(requestStravaToken: StravaToken) =
             tokenRepository.save(requestStravaToken)
 

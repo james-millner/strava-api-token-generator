@@ -25,8 +25,8 @@ class ActivityController(val config: StravaConfiguration, val gson: Gson, val at
     @Timed(histogram = true)
     @GetMapping("/strava/activities")
     fun getAthleteActivities(@RequestParam("token") token: String,
-                      @RequestParam("before") beforeDate: Long,
-                      @RequestParam("after") afterDate: Long): List<AthleteActivity> {
+                             @RequestParam("before") beforeDate: Long,
+                             @RequestParam("after") afterDate: Long): List<AthleteActivity> {
 
         val response = get(url = getEndpointUrl(config.stravaApiBaseUrl, "athlete/activities"),
                 headers = buildHeaders(token),
@@ -62,10 +62,10 @@ class ActivityController(val config: StravaConfiguration, val gson: Gson, val at
                 headers = buildHeaders(token)
         )
 
-        return if(ifSuccessfulRequest(response)) {
+        return if (ifSuccessfulRequest(response)) {
             val activityResponse = gson.fromJson(response.text, ActivityResponse::class.java)
 
-            when(activityService.existsById(activityResponse.id!!)) {
+            when (activityService.existsById(activityResponse.id!!)) {
                 true -> activityResponse
                 false -> activityService.save(activityResponse)
             }
