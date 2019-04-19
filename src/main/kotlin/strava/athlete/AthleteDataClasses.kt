@@ -17,6 +17,7 @@ data class Map(@Id val id: String?, val summary_polyline: String?, val resource_
 interface AthleteActivityRepository : MongoRepository<AthleteActivity, Number>
 
 @Service
+
 class AtheleteActivityService(val activityRepo: AthleteActivityRepository) {
     fun save(activity: AthleteActivity) =
             activityRepo.save(activity)
