@@ -8,9 +8,10 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 @EnableConfigurationProperties
 class StravaApplication
 
-fun main(args: Array<String>) {
-    val springApplication = SpringApplication(StravaApplication::class.java)
-    springApplication.setRegisterShutdownHook(true)
+fun main(args: Array<String>) =
+        SpringApplication(StravaApplication::class.java).bootStravaApplication()
 
-    springApplication.run()
+fun SpringApplication.bootStravaApplication() {
+    this.setRegisterShutdownHook(true)
+    this.run()
 }
