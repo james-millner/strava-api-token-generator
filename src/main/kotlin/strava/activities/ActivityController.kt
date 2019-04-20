@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import strava.activities.models.ActivityResponse
 import strava.activities.service.ActivityService
-import strava.athlete.model.AtheleteActivityService
 import strava.athlete.model.AthleteActivity
+import strava.athlete.service.AthleteActivityService
 import strava.config.StravaConfiguration
 import strava.util.web.buildHeaders
 import strava.util.web.getEndpointUrl
 import strava.util.web.ifSuccessfulRequest
 
 @RestController
-class ActivityController(val config: StravaConfiguration, val gson: Gson, val atheleteActivityService: AtheleteActivityService, val activityService: ActivityService) {
+class ActivityController(val config: StravaConfiguration, val gson: Gson, val athleteActivityService: AthleteActivityService, val activityService: ActivityService) {
 
     companion object : KLogging()
 
@@ -43,8 +43,8 @@ class ActivityController(val config: StravaConfiguration, val gson: Gson, val at
                     .toList()
 
             activitiesFound.forEach {
-                if (!atheleteActivityService.activityRepo.existsById(it.upload_id!!)) {
-                    atheleteActivityService.save(it)
+                if (!athleteActivityService.existsById(it.upload_id!!)) {
+                    athleteActivityService.save(it)
                 }
             }
 

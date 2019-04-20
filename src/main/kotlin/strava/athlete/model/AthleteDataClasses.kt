@@ -2,8 +2,6 @@ package strava.athlete.model
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
-import org.springframework.data.mongodb.repository.MongoRepository
-import org.springframework.stereotype.Service
 
 @Document
 data class Athlete(@Id val id: Number?, val resource_state: Number?)
@@ -13,14 +11,4 @@ data class AthleteActivity(val resource_state: Number?, val athlete: Athlete?, v
 
 @Document
 data class Map(@Id val id: String?, val summary_polyline: String?, val resource_state: Number?)
-
-interface AthleteActivityRepository : MongoRepository<AthleteActivity, Number>
-
-@Service
-
-class AtheleteActivityService(val activityRepo: AthleteActivityRepository) {
-    fun save(activity: AthleteActivity) =
-            activityRepo.save(activity)
-
-}
 
