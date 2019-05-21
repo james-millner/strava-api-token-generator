@@ -6,10 +6,6 @@ management:
       exposure:
         include: ["health", "info", "metrics", "trace", "prometheus"]
 
-server:
-  servlet:
-    context-path: /strava
-
 spring:
   servlet:
     multipart:

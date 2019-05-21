@@ -22,6 +22,8 @@ enum class GrantTypes {
 @Controller
 class StravaAuthController(val stravaConfiguration: StravaConfiguration, val gson: Gson, val tokenService: TokenService) {
 
+    val cache = stravaConfiguration.tokenCache
+
     companion object : KLogging()
 
     @GetMapping(value = ["/get-token"])
@@ -44,10 +46,13 @@ class StravaAuthController(val stravaConfiguration: StravaConfiguration, val gso
         return if (ifSuccessfulRequest(response)) {
 
             val stravaToken = gson.fromJson(response.text, StravaToken::class.java)
+                    ?: throw Exception("Error with token...")
+
+            cache.cacheStravaToken(stravaToken)
 
             when (tokenService.existsByRefreshToken(stravaToken.refreshToken)) {
-                true -> stravaToken
-                false -> tokenService.save(stravaToken)
+                true -> cache.getStravaToken(stravaToken)
+                false -> cache.getStravaToken(tokenService.save(stravaToken))
             }
         } else {
             null
@@ -56,7 +61,7 @@ class StravaAuthController(val stravaConfiguration: StravaConfiguration, val gso
 
     @GetMapping(value = ["/refresh-token"])
     @ResponseBody
-    fun refreshToken(@RequestParam("token") refreshToken: String): StravaToken? {
+    fun refreshToken(@RequestParam("token") refreshToken: String): Any? {
 
         val authUrl = stravaConfiguration.OAuthUrl ?: throw Exception("OAuth URL Properly not set correctly.")
 
@@ -77,9 +82,13 @@ class StravaAuthController(val stravaConfiguration: StravaConfiguration, val gso
             existingToken.accessToken = stravaTokenResponse.accessToken
             existingToken.refreshToken = stravaTokenResponse.refreshToken
 
-            tokenService.save(existingToken)
+            val persistedToken = tokenService.save(existingToken)
+
+            cache.cacheStravaToken(persistedToken)
+                    .run { cache.getStravaToken(persistedToken) }
+
         } else {
-            null
+            response
         }
     }
 

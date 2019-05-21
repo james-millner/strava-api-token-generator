@@ -16,6 +16,7 @@ import strava.config.StravaConfiguration
 import strava.util.web.buildHeaders
 import strava.util.web.getEndpointUrl
 import strava.util.web.ifSuccessfulRequest
+import kotlin.math.log
 
 @RestController
 class ActivityController(val config: StravaConfiguration, val gson: Gson, val athleteActivityService: AthleteActivityService, val activityService: ActivityService) {
@@ -45,6 +46,7 @@ class ActivityController(val config: StravaConfiguration, val gson: Gson, val at
             activitiesFound.forEach {
                 if (!athleteActivityService.existsById(it.upload_id!!)) {
                     athleteActivityService.save(it)
+                    getActivity(it.id, token)
                 }
             }
 
@@ -55,7 +57,7 @@ class ActivityController(val config: StravaConfiguration, val gson: Gson, val at
     }
 
     @GetMapping("/strava/activity/{id}")
-    fun getActivity(@PathVariable("id") activityId: Long,
+    fun getActivity(@PathVariable("id") activityId: Number?,
                     @RequestParam("token") token: String): ActivityResponse? {
 
         val response = get(url = getEndpointUrl(config.stravaApiBaseUrl, "activities/$activityId"),
@@ -65,11 +67,14 @@ class ActivityController(val config: StravaConfiguration, val gson: Gson, val at
         return if (ifSuccessfulRequest(response)) {
             val activityResponse = gson.fromJson(response.text, ActivityResponse::class.java)
 
+            logger.debug { "${activityResponse.externalId} activity saved." }
+
             when (activityService.existsById(activityResponse.id!!)) {
                 true -> activityResponse
                 false -> activityService.save(activityResponse)
             }
         } else {
+            logger.debug { "$activityId activity request unsuccessful: $response" }
             null
         }
     }
