@@ -1,0 +1,31 @@
+management:
+  endpoints:
+    prometheus:
+      enabled: true
+    web:
+      exposure:
+        include: ["health", "info", "metrics", "trace", "prometheus"]
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 5MB
+  data:
+    mongodb:
+      host: mongodb
+      port: 27017
+      database: Strava
+  jackson:
+    serialization:
+      indent-output: true
+      write-dates-as-timestamps: false
+      fail-on-empty-beans: false
+    deserialization:
+      fail-on-unknown-properties: false
+
+strava:
+  url: ${STRAVA_BASEURL}
+  accessToken: ${STRAVA_ACCESS_TOKEN}
+  clientId: ${STRAVA_CLIENT_ID}
+  clientSecret: ${STRAVA_CLIENT_SECRET}
+  OAuthUrl: ${STRAVA_OAUTH_URL}
