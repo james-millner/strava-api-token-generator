@@ -20,9 +20,6 @@ jmillnerdev/strava-app                     latest              e6b002a72934     
 ### Docker Hub
 Alternatively the docker image is published to the docker hub. Available here: https://hub.docker.com/r/jmillnerdev/strava-app
 
-I will try to build and push as many interations, the images are all tagged with git commit hashes. However I need to come up with a better way to tag images - Likely solution will be git tags in the not so distant future. 
-
-
 ### Run Instructions
 
 #### Prerequisites 
