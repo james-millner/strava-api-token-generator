@@ -6,8 +6,8 @@ import org.springframework.data.mongodb.core.mapping.Document
 @Document
 data class StravaToken(
         var tokenType: String,
-        var expiresAt: Number,
-        val expiresIn: Number,
+        var expiresAt: Long,
+        val expiresIn: Long,
         var refreshToken: String,
         @Id var accessToken: String
 ) {
