@@ -10,5 +10,17 @@ data class StravaToken(
         val expiresIn: Number,
         var refreshToken: String,
         @Id var accessToken: String
-)
+) {
+        override fun equals(other: Any?): Boolean {
+                if(other == null || other !is StravaToken) {
+                        return false
+                }
+
+                return refreshToken == other.refreshToken
+        }
+
+        override fun hashCode(): Int {
+                return refreshToken.hashCode()
+        }
+}
 

@@ -2,6 +2,7 @@ package strava.auth.cache
 
 import mu.KLogging
 import org.springframework.cache.annotation.CacheConfig
+import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 import strava.auth.models.StravaToken
 
@@ -11,13 +12,17 @@ interface TokenCacheRepository {
     fun getStravaToken(token: StravaToken) : StravaToken?
 }
 
-@CacheConfig(cacheNames=["tokens"])
 @Component
 class TokenCache : TokenCacheRepository {
 
     companion object: KLogging()
 
-    val tokens = mutableListOf<StravaToken>()
+    @Scheduled(fixedDelay = 120000L)
+    fun displayCache() {
+        tokens.forEach{ logger.debug { "$it" }}
+    }
+
+    val tokens = mutableSetOf<StravaToken>()
 
     override fun cacheStravaToken(token: StravaToken) {
         logger.info { "Storing token in cache: ${token.refreshToken}" }
