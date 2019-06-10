@@ -4,7 +4,7 @@ management:
       enabled: true
     web:
       exposure:
-        include: ["health", "info", "metrics", "trace", "prometheus"]
+        include: ["*"]
 
 spring:
   servlet:

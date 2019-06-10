@@ -12,17 +12,17 @@ import javax.annotation.PreDestroy
 interface TokenCacheRepository {
     fun cacheStravaToken(token: StravaToken)
 
-    fun getStravaToken(token: StravaToken) : StravaToken?
+    fun getStravaToken(token: StravaToken): StravaToken?
 }
 
 @Component
 class TokenCache : TokenCacheRepository {
 
-    companion object: KLogging()
+    companion object : KLogging()
 
     @Scheduled(fixedDelay = 120000L)
     fun displayCache() {
-        tokens.forEach{ logger.info { "$it" }}
+        tokens.forEach { logger.info { "$it" } }
     }
 
     val tokens = mutableSetOf<StravaToken>()
@@ -40,15 +40,15 @@ class TokenCache : TokenCacheRepository {
 @Component
 class TokenPopulator(val tokenCache: TokenCache, val tokenRepository: RequestTokenRepository) {
 
-    companion object: KLogging()
+    companion object : KLogging()
 
     @PostConstruct
     fun populateCache() {
         tokenRepository
-            .findAll()
-            .forEach {
-                logger.info { "Populating cache with: $it" }
-                tokenCache.tokens.add(it)
-            }
+                .findAll()
+                .forEach {
+                    logger.info { "Populating cache with: $it" }
+                    tokenCache.tokens.add(it)
+                }
     }
 }

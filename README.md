@@ -3,7 +3,7 @@ A simple Kotlin Spring Boot app designed as abit of a playground for the Strava 
 
 The app has a variety of API endpoints available to use. To find out more about these, boot up the app and head to:
 
-`http://localhost:8080/strava/swagger-ui.html`
+`http://localhost:8080/swagger-ui.html`
 
 The app is very much a work in progress and its only purpose is to be a side project to play with Kotlin.
 
