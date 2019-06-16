@@ -1,23 +1,23 @@
-version: '3.1'
+version: '3.7'
 services:
 
-#  strava-app:
-#    image: jmillnerdev/strava-app
-#    restart: always
-#    environment:
-#      STRAVA_ACCESS_TOKEN: ${STRAVA_ACCESS_TOKEN}
-#      STRAVA_CLIENT_ID: ${STRAVA_CLIENT_ID}
-#      STRAVA_CLIENT_SECRET: ${STRAVA_CLIENT_SECRET}
-#      STRAVA_URL: https://www.strava.com/oauth/mobile/authorize
-#      STRAVA_OAUTH_URL: https://www.strava.com/oauth/token
-#      PROFILE: docker
-#    ports:
-#      - "8080:8080"
-#    depends_on:
-#      - "mongodb"
-#      - "prometheus-spring"
-#    labels:
-#      kompose.service.type: LoadBalancer
+  strava-app:
+    image: jmillnerdev/strava-app
+    restart: always
+    environment:
+      STRAVA_ACCESS_TOKEN: ${STRAVA_ACCESS_TOKEN}
+      STRAVA_CLIENT_ID: ${STRAVA_CLIENT_ID}
+      STRAVA_CLIENT_SECRET: ${STRAVA_CLIENT_SECRET}
+      STRAVA_URL: https://www.strava.com/oauth/mobile/authorize
+      STRAVA_OAUTH_URL: https://www.strava.com/oauth/token
+      PROFILE: docker
+    ports:
+      - "8080:8080"
+    depends_on:
+      - "mongodb"
+      - "prometheus-spring"
+    labels:
+      kompose.service.type: LoadBalancer
 
   mongodb:
     image: mongo:latest
@@ -32,12 +32,25 @@ services:
       - 27017:27017
     command: mongod --smallfiles --logpath=/dev/null # --quiet
 
-#  prometheus-spring:
-#    image: jmillnerdev/prometheus-spring
-#    restart: always
-#    depends_on:
-#      - "mongodb"
-#    ports:
-#      - "9090:9090"
-#    labels:
-#      kompose.service.type: LoadBalancer
+  prometheus:
+    image: prom/prometheus
+    restart: always
+    ports:
+      - "9090:9090"
+    volumes:
+      - type: bind
+        source: ./prometheus/prometheus-config.yaml
+        target: /etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana
+    user: "104"
+    depends_on:
+      - "prometheus"
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+    env_file:
+      - ./grafana/config.monitoring
+    restart: always

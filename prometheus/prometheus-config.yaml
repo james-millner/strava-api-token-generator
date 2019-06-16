@@ -4,11 +4,14 @@ global:
   evaluation_interval: 10s # Evaluate rules every 10 seconds.
 
 scrape_configs:
-  - job_name: 'strava-app-monitoring'
+  - job_name: 'strava-monitoring'
 
     # Override the global default and scrape targets from this job every 10 seconds.
     scrape_interval: 10s
     metrics_path: '/actuator/prometheus'
 
+    # host.docker.internal will take anything on the local machine (including exposed docker ports), so it will work inside docker or from intellij
     static_configs:
-      - targets: ['strava-app:8080']
+      - targets: ['host.docker.internal:8081']
+        labels:
+          application: 'strava-monitoring'
