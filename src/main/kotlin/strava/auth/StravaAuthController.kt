@@ -75,14 +75,10 @@ class StravaAuthController(val stravaConfiguration: StravaConfiguration, val gso
         return if (ifSuccessfulRequest(response)) {
 
             val stravaTokenResponse = gson.fromJson(response.text, StravaToken::class.java)
-            //Add code to update token in DB.
-            val existingToken = tokenService.findByRefreshToken(stravaTokenResponse.refreshToken)
-                    ?: throw Exception("Token doesn't exist")
 
-            existingToken.accessToken = stravaTokenResponse.accessToken
-            existingToken.refreshToken = stravaTokenResponse.refreshToken
+            tokenService.deleteByRefreshToken(stravaTokenResponse.refreshToken)
 
-            val persistedToken = tokenService.save(existingToken)
+            val persistedToken = tokenService.save(stravaTokenResponse)
 
             cache.cacheStravaToken(persistedToken)
                     .run { cache.getStravaToken(persistedToken) }
