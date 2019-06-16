@@ -15,7 +15,7 @@ services:
       - "8080:8080"
     depends_on:
       - "mongodb"
-      - "prometheus-spring"
+      - "prometheus"
     labels:
       kompose.service.type: LoadBalancer
 

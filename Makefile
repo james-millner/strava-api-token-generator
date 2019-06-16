@@ -23,7 +23,7 @@ push:
 
 #TAGS=${TAG} STRAVA_ACCESS_TOKEN=foobar STRAVA_CLIENT_ID=1234 STRAVA_CLIENT_SECRET=foobar docker-compose up
 docker-run:
-	TAGS=${TAG} STRAVA_ACCESS_TOKEN=test;STRAVA_CLIENT_ID=1234 STRAVA_CLIENT_SECRET=test STRAVA_BASEURL=https://www.strava.com/oauth/mobile/authorize STRAVA_OAUTH_URL=https://www.strava.com/oauth/token docker-compose up
+	TAGS=${TAG} STRAVA_ACCESS_TOKEN=test STRAVA_CLIENT_ID=1234 STRAVA_CLIENT_SECRET=test STRAVA_BASEURL=https://www.strava.com/oauth/mobile/authorize STRAVA_OAUTH_URL=https://www.strava.com/oauth/token docker-compose up
 
 docker-clean:
 	docker kill $(docker ps -q)
