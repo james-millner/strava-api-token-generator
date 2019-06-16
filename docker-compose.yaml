@@ -19,6 +19,14 @@ services:
     labels:
       kompose.service.type: LoadBalancer
 
+  mongodb-exporter:
+    image: mongodb_exporter
+    hostname: mongodb-exporter
+    ports:
+      - 9001:9001
+    # You can provide custom params to the exporter, according to your mongodb config, like SSL support, ...
+    command: -mongodb.uri mongodb://mongodb:27017/strava -mongodb.collect.database -mongodb.collect.connpoolstats -mongodb.collect.collection -mongodb.collect.profile -mongodb.collect.replset=false -mongodb.collect.oplog=false
+
   mongodb:
     image: mongo:latest
     environment:
