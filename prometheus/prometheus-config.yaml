@@ -11,7 +11,7 @@ scrape_configs:
     metrics_path: '/actuator/prometheus'
 
     static_configs:
-      - targets: ['strava:8080']
+      - targets: ['strava-app:8080']
         labels:
           application: 'strava-monitoring'
 

@@ -160,7 +160,7 @@
                         <useCurrentTimestamp>true</useCurrentTimestamp>
                     </container>
                     <to>
-                        <image>jmillnerdev/strava-app</image>
+                        <image>gcr.io/dartsnow-224615/jmillnerdev/strava-app</image>
                         <tags>
                             <tag>${TAGS}</tag>
                         </tags>
