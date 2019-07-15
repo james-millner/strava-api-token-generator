@@ -16,7 +16,6 @@ import strava.config.StravaConfiguration
 import strava.util.web.buildHeaders
 import strava.util.web.getEndpointUrl
 import strava.util.web.ifSuccessfulRequest
-import kotlin.math.log
 
 @RestController
 class ActivityController(val config: StravaConfiguration, val gson: Gson, val athleteActivityService: AthleteActivityService, val activityService: ActivityService) {

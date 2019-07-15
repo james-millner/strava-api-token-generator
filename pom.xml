@@ -26,6 +26,7 @@
         <kotlin.version>1.3.21</kotlin.version>
         <khttp.version>0.1.0</khttp.version>
         <junit.jupiter.version>5.4.1</junit.jupiter.version>
+        <thymeleaf.version>3.0.7.RELEASE</thymeleaf.version>
     </properties>
 
     <dependencies>
@@ -60,10 +61,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-cache</artifactId>
-        </dependency>
         <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
         <dependency>
             <groupId>commons-io</groupId>
@@ -89,11 +86,6 @@
             <groupId>khttp</groupId>
             <artifactId>khttp</artifactId>
             <version>0.1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>io.github.microutils</groupId>
@@ -160,7 +152,7 @@
                         <useCurrentTimestamp>true</useCurrentTimestamp>
                     </container>
                     <to>
-                        <image>gcr.io/dartsnow-224615/jmillnerdev/strava-app</image>
+                        <image>jmillnerdev/strava-app</image>
                         <tags>
                             <tag>${TAGS}</tag>
                         </tags>

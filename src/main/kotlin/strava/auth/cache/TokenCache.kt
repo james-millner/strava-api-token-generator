@@ -1,13 +1,11 @@
 package strava.auth.cache
 
 import mu.KLogging
-import org.springframework.cache.annotation.CacheConfig
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 import strava.auth.models.StravaToken
 import strava.auth.service.RequestTokenRepository
 import javax.annotation.PostConstruct
-import javax.annotation.PreDestroy
 
 interface TokenCacheRepository {
     fun cacheStravaToken(token: StravaToken)

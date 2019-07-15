@@ -2,16 +2,13 @@ package strava.config
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
-import org.springframework.cache.annotation.EnableCaching
 import org.springframework.scheduling.annotation.EnableAsync
 import org.springframework.stereotype.Component
 import strava.auth.GrantTypes
 import strava.auth.cache.TokenCache
-import strava.auth.cache.TokenCacheRepository
 
 @Component
 @ConfigurationProperties(prefix = "strava")
-@EnableCaching
 @EnableAsync
 @EnableConfigurationProperties
 data class StravaConfiguration(
