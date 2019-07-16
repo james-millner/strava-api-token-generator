@@ -3,6 +3,7 @@ package strava.auth
 import com.google.gson.Gson
 import khttp.post
 import mu.KLogging
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -31,7 +32,7 @@ class StravaAuthController(val stravaConfiguration: StravaConfiguration, val gso
 
     @GetMapping(value = ["/auth-code"])
     @ResponseBody
-    fun authCode(@RequestParam(name = "code") authCode: String): StravaToken? {
+    fun authCode(@RequestParam(name = "code") authCode: String): ResponseEntity<StravaToken> {
 
         val authUrl = stravaConfiguration.OAuthUrl ?: throw Exception("OAuth URL Properly not set correctly.")
 
@@ -50,12 +51,14 @@ class StravaAuthController(val stravaConfiguration: StravaConfiguration, val gso
 
             cache.cacheStravaToken(stravaToken)
 
-            when (tokenService.existsByRefreshToken(stravaToken.refreshToken)) {
+            val token = when (tokenService.existsByRefreshToken(stravaToken.refreshToken)) {
                 true -> cache.getStravaToken(stravaToken)
                 false -> cache.getStravaToken(tokenService.save(stravaToken))
-            }
+            } ?: throw Exception("Unable to get Strava Token")
+
+            ResponseEntity.ok().body(token)
         } else {
-            null
+            ResponseEntity.badRequest().build()
         }
     }
 
