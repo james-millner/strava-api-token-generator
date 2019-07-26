@@ -18,8 +18,10 @@ class GPXFileController {
 
     @Timed(histogram = true)
     @PostMapping("/strava/file-upload")
-    fun handleFileUpload(@RequestParam("file") file: MultipartFile,
-                         @RequestParam("outputType") outputType: String): String {
+    fun handleFileUpload(
+        @RequestParam("file") file: MultipartFile,
+        @RequestParam("outputType") outputType: String
+    ): String {
 
         val xmlAsString = IOUtils.toString(file.inputStream, StandardCharsets.UTF_8.name())
 

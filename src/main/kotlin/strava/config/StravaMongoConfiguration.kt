@@ -8,11 +8,12 @@ import org.springframework.data.mongodb.MongoDbFactory
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory
 
-
 @Configuration
-class SpringMongoConfig(@Value("\${spring.data.mongodb.database}") val databaseName: String,
-                        @Value("\${spring.data.mongodb.host}") val mongoHost: String,
-                        @Value("\${spring.data.mongodb.port}") val mongoPort: Int) {
+class SpringMongoConfig(
+    @Value("\${spring.data.mongodb.database}") val databaseName: String,
+    @Value("\${spring.data.mongodb.host}") val mongoHost: String,
+    @Value("\${spring.data.mongodb.port}") val mongoPort: Int
+) {
 
     @Bean
     fun mongoDbFactory(): MongoDbFactory {

@@ -13,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc
 class StravaApplication
 
 fun main(args: Array<String>) =
-        SpringApplication(StravaApplication::class.java).bootStravaApplication()
+    SpringApplication(StravaApplication::class.java).bootStravaApplication()
 
 fun SpringApplication.bootStravaApplication() {
     this.setRegisterShutdownHook(true)

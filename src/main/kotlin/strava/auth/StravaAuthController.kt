@@ -21,7 +21,11 @@ enum class GrantTypes {
 }
 
 @Controller
-class StravaAuthController(val stravaConfiguration: StravaConfiguration, val gson: Gson, val tokenService: TokenService) {
+class StravaAuthController(
+    val stravaConfiguration: StravaConfiguration,
+    val gson: Gson,
+    val tokenService: TokenService
+) {
 
     val cache = stravaConfiguration.tokenCache
 
@@ -37,9 +41,10 @@ class StravaAuthController(val stravaConfiguration: StravaConfiguration, val gso
         val authUrl = stravaConfiguration.OAuthUrl ?: throw Exception("OAuth URL Properly not set correctly.")
 
         val parameters = stravaConfiguration.getMapOfStravaRequestParameters(
-                GrantTypes.AUTHORIZATION_CODE,
-                authCode,
-                StravaOAuthTokenType.CODE)
+            GrantTypes.AUTHORIZATION_CODE,
+            authCode,
+            StravaOAuthTokenType.CODE
+        )
 
         val response = post(url = authUrl, params = parameters)
         logger.info { "Get authentication token: $response.statusCode" }
@@ -47,7 +52,7 @@ class StravaAuthController(val stravaConfiguration: StravaConfiguration, val gso
         return if (ifSuccessfulRequest(response)) {
 
             val stravaToken = gson.fromJson(response.text, StravaToken::class.java)
-                    ?: throw Exception("Error with token...")
+                ?: throw Exception("Error with token...")
 
             cache.cacheStravaToken(stravaToken)
 
@@ -69,9 +74,10 @@ class StravaAuthController(val stravaConfiguration: StravaConfiguration, val gso
         val authUrl = stravaConfiguration.OAuthUrl ?: throw Exception("OAuth URL Properly not set correctly.")
 
         val parameters = stravaConfiguration.getMapOfStravaRequestParameters(
-                GrantTypes.REFRESH_TOKEN,
-                refreshToken,
-                StravaOAuthTokenType.REFRESH_TOKEN)
+            GrantTypes.REFRESH_TOKEN,
+            refreshToken,
+            StravaOAuthTokenType.REFRESH_TOKEN
+        )
 
         val response = post(url = authUrl, params = parameters)
         logger.info { "Refresh token: $response.statusCode" }
@@ -84,7 +90,7 @@ class StravaAuthController(val stravaConfiguration: StravaConfiguration, val gso
             val persistedToken = tokenService.save(stravaTokenResponse)
 
             cache.cacheStravaToken(persistedToken)
-                    .run { cache.getStravaToken(persistedToken) }
+                .run { cache.getStravaToken(persistedToken) }
 
         } else {
             response
@@ -95,10 +101,10 @@ class StravaAuthController(val stravaConfiguration: StravaConfiguration, val gso
 
 fun buildTokenRefreshEndpoint(stravaConfiguration: StravaConfiguration): String {
     return StringBuilder().append(stravaConfiguration.url)
-            .append("?client_id=" + stravaConfiguration.clientId)
-            .append("&redirect_uri=http://localhost:8080/auth-code")
-            .append("&response_type=code")
-            .append("&approval_prompt=force")
-            .append("&scope=read,activity:read_all,profile:read_all,read_all")
-            .toString()
+        .append("?client_id=" + stravaConfiguration.clientId)
+        .append("&redirect_uri=http://localhost:8080/auth-code")
+        .append("&response_type=code")
+        .append("&approval_prompt=force")
+        .append("&scope=read,activity:read_all,profile:read_all,read_all")
+        .toString()
 }
