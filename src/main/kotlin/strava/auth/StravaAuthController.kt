@@ -1,6 +1,6 @@
 package strava.auth
 
-import com.google.gson.Gson
+import com.fasterxml.jackson.databind.ObjectMapper
 import khttp.post
 import mu.KLogging
 import org.springframework.http.ResponseEntity
@@ -23,8 +23,8 @@ enum class GrantTypes {
 @Controller
 class StravaAuthController(
         val stravaConfiguration: StravaConfiguration,
-        val gson: Gson,
-        val tokenService: TokenService
+        val tokenService: TokenService,
+        val objectMapper: ObjectMapper
 ) {
 
     val cache = stravaConfiguration.tokenCache
@@ -51,7 +51,7 @@ class StravaAuthController(
 
         return if (ifSuccessfulRequest(response)) {
 
-            val stravaToken = gson.fromJson(response.text, StravaToken::class.java)
+            val stravaToken = objectMapper.readValue(response.text, StravaToken::class.java)
                     ?: throw Exception("Error with token...")
 
             cache.cacheStravaToken(stravaToken)
@@ -83,7 +83,7 @@ class StravaAuthController(
         logger.info { "Refresh token: $response.statusCode" }
         return if (ifSuccessfulRequest(response)) {
 
-            val stravaTokenResponse = gson.fromJson(response.text, StravaToken::class.java)
+            val stravaTokenResponse = objectMapper.readValue(response.text, StravaToken::class.java)
 
             tokenService.deleteByRefreshToken(stravaTokenResponse.refreshToken)
 
