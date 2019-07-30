@@ -25,7 +25,7 @@ internal class GPXReaderTest {
         private val expectedRideJSONAsString = getResource(
                 "classpath:successful-responses/afternoon-huddersfield-ride.json")
         private val afternoonRideXMLString = gpxReader.pruneGPXJson(
-                readFileToJson(getResource("classpath:afternoon-huddersfield-ride.gpx")))
+                readFileToJson(getResource("classpath:gpx/afternoon-huddersfield-ride.gpx")))
 
         private val expectedObject = gpxReader.createGpxDataObjectFromJSON(expectedRideJSONAsString)
         private val actualObject = gpxReader.createGpxDataObjectFromJSON(afternoonRideXMLString)

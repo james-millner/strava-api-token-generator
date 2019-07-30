@@ -3,14 +3,14 @@ package strava.tpx.service
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.stereotype.Service
 import strava.tpx.models.TCXObject
-import strava.util.modification.formatXMLToJson
+import strava.util.modification.readFileToJson
 
 @Service
 class TCXReader(val objectMapper: ObjectMapper) {
 
     fun createGpxDataObjectFromJSON(xml: String): TCXObject = objectMapper
             .readValue(
-                    formatXMLToJson(xml),
+                    readFileToJson(xml),
                     TCXObject::class.java
             )
 }
