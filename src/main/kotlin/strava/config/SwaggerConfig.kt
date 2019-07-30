@@ -14,9 +14,9 @@ class SwaggerConfig {
 
     @Bean
     fun swagger(): Docket = Docket(DocumentationType.SWAGGER_2)
-        .select()
-        .apis(RequestHandlerSelectors.any())
-        .paths(PathSelectors.regex("/strava.*"))
-        .build()
+            .select()
+            .apis(RequestHandlerSelectors.any())
+            .paths(PathSelectors.regex("/strava.*"))
+            .build()
 
 }

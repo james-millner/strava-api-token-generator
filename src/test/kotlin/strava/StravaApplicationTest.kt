@@ -1,6 +1,8 @@
 package strava
 
-import junit.framework.Assert.*
+import junit.framework.Assert.assertEquals
+import junit.framework.Assert.assertNotNull
+import junit.framework.Assert.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -8,8 +10,8 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.TestPropertySource
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import strava.config.StravaConfiguration
 import strava.auth.buildTokenRefreshEndpoint
+import strava.config.StravaConfiguration
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(

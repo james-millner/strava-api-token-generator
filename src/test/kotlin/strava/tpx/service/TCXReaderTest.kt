@@ -3,15 +3,9 @@ package strava.tpx.service
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.google.gson.FieldNamingPolicy
-import com.google.gson.GsonBuilder
-import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 import strava.getResource
-import strava.gpx.service.GPXReader
 import strava.util.modification.formatXMLToJson
 
 internal class TXCReaderTest {

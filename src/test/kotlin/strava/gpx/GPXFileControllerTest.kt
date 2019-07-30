@@ -3,8 +3,6 @@ package strava.gpx
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.google.gson.FieldNamingPolicy
-import com.google.gson.GsonBuilder
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -29,14 +27,16 @@ internal class GPXFileControllerTest {
 
         private val controller = GPXFileController(gpxReader)
 
-        private val expectedRideJSONAsString = getResource("classpath:successful-responses/afternoon-huddersfield-ride.json")
+        private val expectedRideJSONAsString = getResource(
+                "classpath:successful-responses/afternoon-huddersfield-ride.json")
         private val expectedRideAsXML = getResource("classpath:afternoon-huddersfield-ride.gpx")
         private val afternoonRideJSONString = gpxReader.pruneGPXJson(readFileToJson(expectedRideAsXML))
 
         private val expectedObject = gpxReader.createGpxDataObjectFromJSON(expectedRideAsXML)
         private val actualObject = gpxReader.createGpxDataObjectFromJSON(afternoonRideJSONString)
 
-        private val userFile = MockMultipartFile("file", "orig", "text/plain;charset=UTF-8", expectedRideAsXML.toByteArray())
+        private val userFile = MockMultipartFile("file", "orig", "text/plain;charset=UTF-8",
+                                                 expectedRideAsXML.toByteArray())
 
         @BeforeEach
         fun init() {
@@ -64,7 +64,9 @@ internal class GPXFileControllerTest {
             }
 
             assertNotNull(exception)
-            assertEquals("Unsupported output type. Please select from `json`, `xml`, `dataobject` (Produces kotlin data object.toString())", exception.localizedMessage)
+            assertEquals(
+                    "Unsupported output type. Please select from `json`, `xml`, `dataobject` (Produces kotlin data object.toString())",
+                    exception.localizedMessage)
         }
     }
 }

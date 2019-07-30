@@ -19,8 +19,8 @@ class GPXFileController(val gpxReader: GPXReader) {
     @Timed(histogram = true)
     @PostMapping("/strava/file-upload")
     fun handleFileUpload(
-        @RequestParam("file") file: MultipartFile,
-        @RequestParam("outputType") outputType: String
+            @RequestParam("file") file: MultipartFile,
+            @RequestParam("outputType") outputType: String
     ): String {
 
         val xmlAsString = IOUtils.toString(file.inputStream, StandardCharsets.UTF_8.name())
@@ -29,7 +29,8 @@ class GPXFileController(val gpxReader: GPXReader) {
             "json" -> gpxReader.pruneGPXJson(readFileToJson(xmlAsString))
             "xml" -> xmlAsString
             "dataobject" -> gpxReader.createGpxDataObjectFromJSON(xmlAsString).toString()
-            else -> throw Exception("Unsupported output type. Please select from `json`, `xml`, `dataobject` (Produces kotlin data object.toString())")
+            else -> throw Exception(
+                    "Unsupported output type. Please select from `json`, `xml`, `dataobject` (Produces kotlin data object.toString())")
         }
     }
 }

@@ -27,11 +27,11 @@ class TokenCache : TokenCacheRepository {
 
     override fun cacheStravaToken(token: StravaToken) {
         logger.info { "Storing token in cache: ${token.refreshToken}" }
-            .run { tokens.add(token) }
+                .run { tokens.add(token) }
     }
 
     override fun getStravaToken(token: StravaToken): StravaToken? =
-        tokens.find { it.refreshToken == token.refreshToken }
+            tokens.find { it.refreshToken == token.refreshToken }
 
 }
 
@@ -43,10 +43,10 @@ class TokenPopulator(val tokenCache: TokenCache, val tokenRepository: RequestTok
     @PostConstruct
     fun populateCache() {
         tokenRepository
-            .findAll()
-            .forEach {
-                logger.info { "Populating cache with: $it" }
-                tokenCache.tokens.add(it)
-            }
+                .findAll()
+                .forEach {
+                    logger.info { "Populating cache with: $it" }
+                    tokenCache.tokens.add(it)
+                }
     }
 }

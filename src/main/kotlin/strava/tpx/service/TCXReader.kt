@@ -1,7 +1,6 @@
 package strava.tpx.service
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.google.gson.Gson
 import org.springframework.stereotype.Service
 import strava.tpx.models.TCXObject
 import strava.util.modification.formatXMLToJson

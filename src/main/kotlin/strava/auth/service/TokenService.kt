@@ -16,8 +16,8 @@ class TokenService(val tokenRepository: RequestTokenRepository) {
     fun deleteByRefreshToken(refreshToken: String) = tokenRepository.deleteByRefreshToken(refreshToken)
 
     fun save(requestStravaToken: StravaToken) =
-        tokenRepository.save(requestStravaToken)
+            tokenRepository.save(requestStravaToken)
 
     fun existsByRefreshToken(refreshToken: String) =
-        tokenRepository.existsByRefreshToken(refreshToken)
+            tokenRepository.existsByRefreshToken(refreshToken)
 }
