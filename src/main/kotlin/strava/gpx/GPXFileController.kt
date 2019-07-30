@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
-import strava.gpx.service.createGpxDataObjectFromJSON
-import strava.gpx.service.readFileToJson
+import strava.gpx.service.GPXReader
+import strava.util.modification.readFileToJson
 import java.nio.charset.StandardCharsets
 
 @RestController
-class GPXFileController {
+class GPXFileController(val gpxReader: GPXReader) {
 
     companion object : KLogging()
 
@@ -26,9 +26,9 @@ class GPXFileController {
         val xmlAsString = IOUtils.toString(file.inputStream, StandardCharsets.UTF_8.name())
 
         return when (outputType.toLowerCase()) {
-            "json" -> readFileToJson(xmlAsString)
+            "json" -> gpxReader.pruneGPXJson(readFileToJson(xmlAsString))
             "xml" -> xmlAsString
-            "dataobject" -> createGpxDataObjectFromJSON(xmlAsString).toString()
+            "dataobject" -> gpxReader.createGpxDataObjectFromJSON(xmlAsString).toString()
             else -> throw Exception("Unsupported output type. Please select from `json`, `xml`, `dataobject` (Produces kotlin data object.toString())")
         }
     }

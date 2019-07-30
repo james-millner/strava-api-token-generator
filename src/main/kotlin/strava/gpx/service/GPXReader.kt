@@ -1,30 +1,28 @@
 package strava.gpx.service
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.gson.Gson
-import org.json.XML
-import strava.gpx.models.GpxObject
+import org.springframework.stereotype.Service
+import strava.gpx.models.GPXObject
+import strava.util.modification.formatXMLToJson
 
-fun readFileToJson(fileAsString: String): String = formatXMLToJson(fileAsString)
+@Service
+class GPXReader(val objectMapper: ObjectMapper) {
 
-fun formatXMLToJson(xml: String): String = XML.toJSONObject(xml)
-        .toString()
-        .pruneJsonObject()
+    fun createGpxDataObjectFromJSON(xml: String): GPXObject = objectMapper
+            .readValue(
+                    formatXMLToJson(xml),
+                    GPXObject::class.java
+            )
 
-fun createGpxDataObjectFromJSON(xml: String): GpxObject = Gson()
-        .fromJson(
-                formatXMLToJson(xml),
-                GpxObject::class.java
-        )
-
-fun String.pruneJsonObject(): String =
-        this.replace("gpxtpx:TrackPointExtension", "trackpointextension")
-                .replace("gpxtpx:hr", "hr")
-                .replace("gpxtpx:atemp", "atemp")
-                .replace("gpxtpx:cad", "cad")
-                .replace("gpxtpx:", "")
-                .replace("xmlns:", "")
-                .replace("xsi:", "")
-
-
+    fun pruneGPXJson(json: String): String =
+            json.replace("gpxtpx:TrackPointExtension", "trackpointextension")
+                    .replace("gpxtpx:hr", "hr")
+                    .replace("gpxtpx:atemp", "atemp")
+                    .replace("gpxtpx:cad", "cad")
+                    .replace("gpxtpx:", "")
+                    .replace("xmlns:", "")
+                    .replace("xsi:", "")
+}
 
 
