@@ -29,7 +29,7 @@ internal class GPXFileControllerTest {
 
         private val expectedRideJSONAsString = getResource(
                 "classpath:successful-responses/afternoon-huddersfield-ride.json")
-        private val expectedRideAsXML = getResource("classpath:afternoon-huddersfield-ride.gpx")
+        private val expectedRideAsXML = getResource("classpath:gpx/afternoon-huddersfield-ride.gpx")
         private val afternoonRideJSONString = gpxReader.pruneGPXJson(readFileToJson(expectedRideAsXML))
 
         private val expectedObject = gpxReader.createGpxDataObjectFromJSON(expectedRideAsXML)

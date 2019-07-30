@@ -1,4 +1,4 @@
-package strava.gpx
+package strava.tpx
 
 import io.micrometer.core.annotation.Timed
 import mu.KLogging
@@ -7,17 +7,17 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
-import strava.gpx.service.GPXReader
+import strava.tpx.service.TCXReader
 import strava.util.modification.readFileToJson
 import java.nio.charset.StandardCharsets
 
 @RestController
-class GPXFileController(val gpxReader: GPXReader) {
+class TCXFileController(val tcxReader: TCXReader) {
 
     companion object : KLogging()
 
     @Timed(histogram = true)
-    @PostMapping("/strava/gpx/file-upload")
+    @PostMapping("/strava/tcx/file-upload")
     fun handleFileUpload(
             @RequestParam("file") file: MultipartFile,
             @RequestParam("outputType") outputType: String
@@ -26,9 +26,9 @@ class GPXFileController(val gpxReader: GPXReader) {
         val xmlAsString = IOUtils.toString(file.inputStream, StandardCharsets.UTF_8.name())
 
         return when (outputType.toLowerCase()) {
-            "json" -> gpxReader.pruneGPXJson(readFileToJson(xmlAsString))
+            "json" -> readFileToJson(xmlAsString)
             "xml" -> xmlAsString
-            "dataobject" -> gpxReader.createGpxDataObjectFromJSON(xmlAsString).toString()
+            "dataobject" -> tcxReader.createGpxDataObjectFromJSON(xmlAsString).toString()
             else -> throw Exception(
                     "Unsupported output type. Please select from `json`, `xml`, `dataobject` (Produces kotlin data object.toString())")
         }
