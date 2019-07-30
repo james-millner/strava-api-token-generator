@@ -1,6 +1,7 @@
 package strava.tpx.models
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.time.LocalDateTime
 
 
 data class TCXObject(
@@ -47,7 +48,7 @@ data class Lap(
         @JsonProperty("Intensity")
         val intensity: String?,
         @JsonProperty("StartTime")
-        val startTime: String?,
+        val startTime: LocalDateTime?,
         @JsonProperty("Cadence")
         val cadence: Int?,
         @JsonProperty("DistanceMeters")
@@ -87,7 +88,7 @@ data class Trackpoint(
         @JsonProperty("Cadence")
         val cadence: Int?,
         @JsonProperty("Time")
-        val time: String?,
+        val time: LocalDateTime?,
         @JsonProperty("AltitudeMeters")
         val altitudeMeters: Int?,
         @JsonProperty("DistanceMeters")

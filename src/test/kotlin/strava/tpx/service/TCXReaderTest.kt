@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 import strava.getResource
 import strava.util.modification.formatXMLToJson
+import java.time.LocalDateTime
 
 internal class TXCReaderTest {
 
@@ -30,7 +31,8 @@ internal class TXCReaderTest {
             val obj = tcxReader.createGpxDataObjectFromJSON(RAW_TCX_DATA)
             assertAll("The objects values are correct",
                       { assertEquals("Biking", obj.trainingCenterDatabase?.activities?.activity?.sport) },
-                      { assertEquals("2019-07-28T13:16:43Z", obj.trainingCenterDatabase?.activities?.activity?.id) }
+                      { assertEquals("2019-07-28T13:16:43Z", obj.trainingCenterDatabase?.activities?.activity?.id) },
+                      { assertEquals(LocalDateTime.of(2019,7,28,13,16,43), obj.trainingCenterDatabase?.activities?.activity?.lap?.startTime)}
             )
         }
     }
