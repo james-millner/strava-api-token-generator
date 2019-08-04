@@ -3,6 +3,8 @@ package strava.tpx.service
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.google.maps.GeoApiContext
+import io.mockk.mockk
 import junit.framework.Assert.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

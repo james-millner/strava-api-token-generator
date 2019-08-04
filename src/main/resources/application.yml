@@ -29,3 +29,5 @@ strava:
   clientId: ${STRAVA_CLIENT_ID}
   clientSecret: ${STRAVA_CLIENT_SECRET}
   OAuthUrl: ${STRAVA_OAUTH_URL}
+  geocoding:
+    apikey: ${STRAVA_GOOGLE_GEOCODING_API_KEY}

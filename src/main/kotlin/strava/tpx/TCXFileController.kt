@@ -7,12 +7,14 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
+import strava.geocoding.GeocodeService
 import strava.tpx.service.TCXReader
 import strava.util.modification.readFileToJson
 import java.nio.charset.StandardCharsets
 
 @RestController
-class TCXFileController(val tcxReader: TCXReader) {
+class TCXFileController(val tcxReader: TCXReader,
+                        val geocodeService: GeocodeService) {
 
     companion object : KLogging()
 
@@ -28,7 +30,7 @@ class TCXFileController(val tcxReader: TCXReader) {
         return when (outputType.toLowerCase()) {
             "json" -> readFileToJson(xmlAsString)
             "xml" -> xmlAsString
-            "dataobject" -> tcxReader.createGpxDataObjectFromJSON(xmlAsString).toString()
+            "dataobject" -> geocodeService.getAddressInformation(tcxReader.createGpxDataObjectFromJSON(xmlAsString)).toString()
             else -> throw Exception(
                     "Unsupported output type. Please select from `json`, `xml`, `dataobject` (Produces kotlin data object.toString())")
         }
