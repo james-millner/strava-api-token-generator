@@ -5,6 +5,7 @@ services:
     image: jmillnerdev/strava-app
     restart: always
     environment:
+      STRAVA_GOOGLE_GEOCODING_API_KEY: ${STRAVA_GOOGLE_GEOCODING_API_KEY}
       STRAVA_ACCESS_TOKEN: ${STRAVA_ACCESS_TOKEN}
       STRAVA_CLIENT_ID: ${STRAVA_CLIENT_ID}
       STRAVA_CLIENT_SECRET: ${STRAVA_CLIENT_SECRET}
