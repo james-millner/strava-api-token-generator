@@ -1,10 +1,8 @@
-package strava.tpx.service
+package strava.tcx.service
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.google.maps.GeoApiContext
-import io.mockk.mockk
 import junit.framework.Assert.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -29,15 +27,15 @@ internal class TXCReaderTest {
         fun `the XML is successfully parsed and converted to a GPXObject`() {
             val obj = tcxReader.createGpxDataObjectFromJSON(RAW_TCX_DATA)
             assertAll("The objects values are correct",
-                      { assertEquals("Biking", obj.trainingCenterDatabase?.activities?.activity?.sport) },
-                      { assertEquals("2019-07-28T13:16:43Z", obj.trainingCenterDatabase?.activities?.activity?.id) },
+                      { assertEquals("Biking", obj.trainingCenterDatabase.activities.activity.sport) },
+                      { assertEquals("2019-07-28T13:16:43Z", obj.trainingCenterDatabase.activities.activity.id) },
                       {
                           assertEquals(LocalDateTime.of(2019, 7, 28, 13, 16, 43),
-                                       obj.trainingCenterDatabase?.activities?.activity?.lap?.startTime)
+                                       obj.trainingCenterDatabase.activities.activity.lap.startTime)
                       },
                       {
                           assertEquals(790,
-                                       obj.trainingCenterDatabase?.activities?.activity?.lap?.track?.trackpoint?.size)
+                                       obj.trainingCenterDatabase.activities.activity.lap.track.trackpoints.size)
                       }
             )
         }

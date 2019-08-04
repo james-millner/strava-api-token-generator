@@ -1,4 +1,4 @@
-package strava.tpx.models
+package strava.tcx.models
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.LocalDateTime
@@ -6,12 +6,24 @@ import java.time.LocalDateTime
 
 data class TCXObject(
         @JsonProperty("TrainingCenterDatabase")
-        val trainingCenterDatabase: TrainingCenterDatabase?
-)
+        val trainingCenterDatabase: TrainingCenterDatabase
+) {
+        fun getTrackPointsFromTCXObject() = trainingCenterDatabase
+                .activities
+                .activity
+                .lap
+                .track
+                .trackpoints
+
+        fun getPositionsFromTCXObjectFromTCXObject() =
+                getTrackPointsFromTCXObject().map { it.position }
+
+
+}
 
 data class TrainingCenterDatabase(
         @JsonProperty("Activities")
-        val activities: Activities?,
+        val activities: Activities,
         @JsonProperty("xmlns")
         val xmlns: String?,
         @JsonProperty("xmlns:ns2")
@@ -28,41 +40,41 @@ data class TrainingCenterDatabase(
 
 data class Activities(
         @JsonProperty("Activity")
-        val activity: Activity?
+        val activity: Activity
 )
 
 data class Activity(
         @JsonProperty("Sport")
         val sport: String?,
         @JsonProperty("Lap")
-        val lap: Lap?,
+        val lap: Lap,
         @JsonProperty("Id")
         val id: String?
 )
 
 data class Lap(
         @JsonProperty("MaximumSpeed")
-        val maximumSpeed: Int?,
+        val maximumSpeed: Int,
         @JsonProperty("MaximumHeartRateBpm")
         val maximumHeartRateBpm: MaximumHeartRateBpm?,
         @JsonProperty("Intensity")
-        val intensity: String?,
+        val intensity: String,
         @JsonProperty("StartTime")
-        val startTime: LocalDateTime?,
+        val startTime: LocalDateTime,
         @JsonProperty("Cadence")
         val cadence: Int?,
         @JsonProperty("DistanceMeters")
-        val distanceMeters: Double?,
+        val distanceMeters: Double,
         @JsonProperty("TriggerMethod")
         val triggerMethod: String?,
         @JsonProperty("TotalTimeSeconds")
-        val totalTimeSeconds: Int?,
+        val totalTimeSeconds: Int,
         @JsonProperty("Calories")
-        val calories: Int?,
+        val calories: Int,
         @JsonProperty("AverageHeartRateBpm")
         val averageHeartRateBpm: AverageHeartRateBpm?,
         @JsonProperty("Track")
-        val track: Track?
+        val track: Track
 )
 
 data class MaximumHeartRateBpm(
@@ -77,14 +89,14 @@ data class AverageHeartRateBpm(
 
 data class Track(
         @JsonProperty("Trackpoint")
-        val trackpoint: List<Trackpoint?>?
+        val trackpoints: List<Trackpoint>
 )
 
 data class Trackpoint(
         @JsonProperty("HeartRateBpm")
         val heartRateBpm: HeartRateBpm?,
         @JsonProperty("Position")
-        val position: Position?,
+        val position: Position,
         @JsonProperty("Cadence")
         val cadence: Int?,
         @JsonProperty("Time")
@@ -99,9 +111,9 @@ data class Trackpoint(
 
 data class Position(
         @JsonProperty("LatitudeDegrees")
-        val latitudeDegrees: Double?,
+        val latitudeDegrees: Double,
         @JsonProperty("LongitudeDegrees")
-        val longitudeDegrees: Double?
+        val longitudeDegrees: Double
 )
 
 data class HeartRateBpm(

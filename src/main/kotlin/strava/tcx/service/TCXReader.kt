@@ -1,8 +1,8 @@
-package strava.tpx.service
+package strava.tcx.service
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.stereotype.Service
-import strava.tpx.models.TCXObject
+import strava.tcx.models.TCXObject
 import strava.util.modification.readFileToJson
 
 
