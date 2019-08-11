@@ -1,6 +1,7 @@
 package strava.gpx
 
 import io.micrometer.core.annotation.Timed
+import java.nio.charset.StandardCharsets
 import mu.KLogging
 import org.apache.commons.io.IOUtils
 import org.springframework.web.bind.annotation.PostMapping
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
 import strava.gpx.service.GPXReader
 import strava.util.modification.readFileToJson
-import java.nio.charset.StandardCharsets
 
 @RestController
 class GPXFileController(val gpxReader: GPXReader) {
@@ -19,8 +19,8 @@ class GPXFileController(val gpxReader: GPXReader) {
     @Timed(histogram = true)
     @PostMapping("/strava/gpx/file-upload")
     fun handleFileUpload(
-            @RequestParam("file") file: MultipartFile,
-            @RequestParam("outputType") outputType: String
+        @RequestParam("file") file: MultipartFile,
+        @RequestParam("outputType") outputType: String
     ): String {
 
         val xmlAsString = IOUtils.toString(file.inputStream, StandardCharsets.UTF_8.name())

@@ -22,9 +22,9 @@ enum class GrantTypes {
 
 @Controller
 class StravaAuthController(
-        val stravaConfiguration: StravaConfiguration,
-        val tokenService: TokenService,
-        val objectMapper: ObjectMapper
+    val stravaConfiguration: StravaConfiguration,
+    val tokenService: TokenService,
+    val objectMapper: ObjectMapper
 ) {
 
     val cache = stravaConfiguration.tokenCache
@@ -91,12 +91,10 @@ class StravaAuthController(
 
             cache.cacheStravaToken(persistedToken)
                     .run { cache.getStravaToken(persistedToken) }
-
         } else {
             response
         }
     }
-
 }
 
 fun buildTokenRefreshEndpoint(stravaConfiguration: StravaConfiguration): String {

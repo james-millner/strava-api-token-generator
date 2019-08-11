@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 class GeocodeConfiguration(
-        val geocodeConfigurationProperties: GeocodingConfigurationProperties
+    val geocodeConfigurationProperties: GeocodingConfigurationProperties
 ) {
 
     @Bean

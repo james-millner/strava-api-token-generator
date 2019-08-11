@@ -47,5 +47,4 @@ class StravaApplicationTest {
     fun `Strava configuration loaded`() {
         println(buildTokenRefreshEndpoint(stravaConfiguration))
     }
-
 }

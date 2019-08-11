@@ -16,7 +16,7 @@ package:
 	./mvnw package
 
 build-docker-image:
-	TAGS=${TAG} ./mvnw jib:dockerBuild
+	TAGS=${TAG} ./mvnw jib:build
 
 push:
 	docker push ${IMG}

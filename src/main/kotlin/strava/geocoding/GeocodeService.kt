@@ -11,7 +11,7 @@ import strava.tcx.models.TCXObject
 
 @Service
 class GeocodeService(
-        val geocodeContext: GeoApiContext
+    val geocodeContext: GeoApiContext
 ) {
 
     fun getAddressInformationForTcxObject(tcxObject: TCXObject): List<GeocodingResult> =
@@ -19,13 +19,10 @@ class GeocodeService(
                 getGeocodeResultForPosition(it.position).first()
             }
 
-
     private fun getGeocodeResultForPosition(position: Position): Array<out GeocodingResult> =
             GeocodingApi.reverseGeocode(
                     geocodeContext,
                     LatLng(position.latitudeDegrees, position.longitudeDegrees)).await()
 
-
     companion object : KLogging()
-
 }

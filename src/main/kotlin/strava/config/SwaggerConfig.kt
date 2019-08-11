@@ -18,5 +18,4 @@ class SwaggerConfig {
             .apis(RequestHandlerSelectors.any())
             .paths(PathSelectors.regex("/strava.*"))
             .build()
-
 }

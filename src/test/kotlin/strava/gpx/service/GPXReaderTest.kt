@@ -45,6 +45,5 @@ internal class GPXReaderTest {
         @Test
         fun `the XML is successfully parsed to JSON`() =
                 assertEquals(afternoonRideXMLString.trim(), expectedRideJSONAsString.trim())
-
     }
 }

@@ -1,11 +1,11 @@
 package strava.auth.cache
 
+import javax.annotation.PostConstruct
 import mu.KLogging
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 import strava.auth.models.StravaToken
 import strava.auth.service.RequestTokenRepository
-import javax.annotation.PostConstruct
 
 interface TokenCacheRepository {
     fun cacheStravaToken(token: StravaToken)
@@ -32,7 +32,6 @@ class TokenCache : TokenCacheRepository {
 
     override fun getStravaToken(token: StravaToken): StravaToken? =
             tokens.find { it.refreshToken == token.refreshToken }
-
 }
 
 @Component

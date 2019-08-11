@@ -23,5 +23,3 @@ class GPXReader(val objectMapper: ObjectMapper) {
                     .replace("xmlns:", "")
                     .replace("xsi:", "")
 }
-
-

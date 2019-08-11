@@ -13,5 +13,4 @@ class ApplicationConfiguration {
     fun objectMapper(): ObjectMapper = ObjectMapper()
             .registerModule(JavaTimeModule())
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-
 }

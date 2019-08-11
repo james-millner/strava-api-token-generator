@@ -12,14 +12,14 @@ import strava.auth.cache.TokenCache
 @EnableAsync
 @EnableConfigurationProperties
 data class StravaConfiguration(
-        var accessToken: String? = null,
-        var clientId: String? = null,
-        var clientSecret: String? = null,
-        var authorizationCode: String? = null,
-        var url: String? = null,
-        var OAuthUrl: String? = null,
-        val stravaApiBaseUrl: String = "https://www.strava.com/api/v3/",
-        val tokenCache: TokenCache = TokenCache()
+    var accessToken: String? = null,
+    var clientId: String? = null,
+    var clientSecret: String? = null,
+    var authorizationCode: String? = null,
+    var url: String? = null,
+    var OAuthUrl: String? = null,
+    val stravaApiBaseUrl: String = "https://www.strava.com/api/v3/",
+    val tokenCache: TokenCache = TokenCache()
 )
 
 enum class StravaOAuthTokenType {
@@ -28,9 +28,9 @@ enum class StravaOAuthTokenType {
 }
 
 fun StravaConfiguration.getMapOfStravaRequestParameters(
-        grantType: GrantTypes,
-        token: String,
-        stravaOAuthTokenType: StravaOAuthTokenType
+    grantType: GrantTypes,
+    token: String,
+    stravaOAuthTokenType: StravaOAuthTokenType
 ): MutableMap<String, String> {
 
     val clientId = clientId ?: throw Exception("Strava clientId not set correctly.")

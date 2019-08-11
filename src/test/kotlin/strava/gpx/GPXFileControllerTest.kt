@@ -52,7 +52,6 @@ internal class GPXFileControllerTest {
         fun `the GPX is successfully parsed and converted to a GPXObject`() =
                 assertEquals(expectedObject.toString(), controller.handleFileUpload(userFile, "dataobject"))
 
-
         @Test
         fun `the GPX is successfully parsed and converted to XML`() =
                 assertEquals(expectedRideAsXML, controller.handleFileUpload(userFile, "xml"))

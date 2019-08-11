@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service
 import strava.tcx.models.TCXObject
 import strava.util.modification.readFileToJson
 
-
 @Service
 class TCXReader(val objectMapper: ObjectMapper) {
 
