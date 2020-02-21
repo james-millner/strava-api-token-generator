@@ -1,0 +1,20 @@
+management:
+  endpoints:
+    prometheus:
+      enabled: true
+    web:
+      exposure:
+        include: ["health", "info", "metrics", "trace", "prometheus"]
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 5MB
+
+
+strava:
+  url: https://www.strava.com/oauth/mobile/authorize
+  accessToken: test
+  clientId: 12345
+  clientSecret: test
+  OAuthUrl: https://www.strava.com/oauth/token
