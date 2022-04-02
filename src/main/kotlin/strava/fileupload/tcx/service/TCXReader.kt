@@ -1,8 +1,8 @@
-package strava.tcx.service
+package strava.fileupload.tcx.service
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.stereotype.Service
-import strava.tcx.models.TCXObject
+import strava.fileupload.tcx.models.TCXObject
 import strava.util.modification.readFileToJson
 
 @Service

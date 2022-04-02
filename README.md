@@ -15,7 +15,7 @@ The app is very much a work in progress and its only purpose is to be a side pro
 
 ### Build app & Docker Image
 
-1. `mvn clean package jib:dockerBuild` | `make` - This defaults to the make build step in the provided makefile.
+1. `./gradlew clean build jibDockerBuild` 
 2. Validate docker image has been created:
 
 ````

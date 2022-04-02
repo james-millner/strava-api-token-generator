@@ -6,8 +6,8 @@ import com.google.maps.model.GeocodingResult
 import com.google.maps.model.LatLng
 import mu.KLogging
 import org.springframework.stereotype.Service
-import strava.tcx.models.Position
-import strava.tcx.models.TCXObject
+import strava.fileupload.tcx.models.Position
+import strava.fileupload.tcx.models.TCXObject
 
 @Service
 class GeocodeService(

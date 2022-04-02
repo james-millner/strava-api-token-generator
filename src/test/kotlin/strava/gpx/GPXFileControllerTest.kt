@@ -10,8 +10,9 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.springframework.mock.web.MockMultipartFile
+import strava.fileupload.gpx.GPXFileController
 import strava.getResource
-import strava.gpx.service.GPXReader
+import strava.fileupload.gpx.service.GPXReader
 import strava.util.modification.readFileToJson
 
 internal class GPXFileControllerTest {

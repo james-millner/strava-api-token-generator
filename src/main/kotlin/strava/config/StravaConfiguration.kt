@@ -44,10 +44,10 @@ fun StravaConfiguration.getMapOfStravaRequestParameters(
 
     if (stravaOAuthTokenType.equals(StravaOAuthTokenType.CODE)) {
         parameters["code"] = token
-        parameters["grant_type"] = grantType.name.toLowerCase()
+        parameters["grant_type"] = grantType.name.lowercase()
     } else {
         parameters["refresh_token"] = token
-        parameters["grant_type"] = grantType.name.toLowerCase()
+        parameters["grant_type"] = grantType.name.lowercase()
     }
 
     return parameters

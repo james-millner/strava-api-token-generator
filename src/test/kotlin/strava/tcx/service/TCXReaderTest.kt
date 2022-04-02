@@ -4,10 +4,11 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import java.time.LocalDateTime
-import junit.framework.Assert.assertEquals
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
+import strava.fileupload.tcx.service.TCXReader
 import strava.getResource
 
 internal class TXCReaderTest {

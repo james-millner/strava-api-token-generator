@@ -14,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc
 @OpenAPIDefinition
 class StravaApplication
 
-fun main(args: Array<String>) =
+fun main() =
         SpringApplication(StravaApplication::class.java).bootStravaApplication()
 
 fun SpringApplication.bootStravaApplication() {

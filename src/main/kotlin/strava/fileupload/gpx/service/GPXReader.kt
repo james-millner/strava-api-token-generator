@@ -1,8 +1,8 @@
-package strava.gpx.service
+package strava.fileupload.gpx.service
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.stereotype.Service
-import strava.gpx.models.GPXObject
+import strava.fileupload.gpx.models.GPXObject
 import strava.util.modification.readFileToJson
 
 @Service

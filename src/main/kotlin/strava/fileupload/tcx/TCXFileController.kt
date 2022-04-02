@@ -1,4 +1,4 @@
-package strava.tcx
+package strava.fileupload.tcx
 
 import io.micrometer.core.annotation.Timed
 import java.nio.charset.StandardCharsets
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
 import strava.geocoding.GeocodeConfiguration
 import strava.geocoding.GeocodeService
-import strava.tcx.service.TCXReader
+import strava.fileupload.tcx.service.TCXReader
 import strava.util.modification.readFileToJson
 
 @RestController

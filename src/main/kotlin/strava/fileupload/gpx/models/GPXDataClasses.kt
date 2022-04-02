@@ -1,4 +1,4 @@
-package strava.gpx.models
+package strava.fileupload.gpx.models
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
