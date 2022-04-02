@@ -7,6 +7,12 @@ The app has a variety of API endpoints available to use. To find out more about 
 
 The app is very much a work in progress and its only purpose is to be a side project to play with Kotlin.
 
+### Requirements
+
+* Docker
+* \>= JDK 8 
+  * JDK 15 Recommended
+
 ### Build app & Docker Image
 
 1. `mvn clean package jib:dockerBuild` | `make` - This defaults to the make build step in the provided makefile.
@@ -28,17 +34,10 @@ The strava app has some defined configuration that needs to be injected before r
 
 ````
 strava:
-  url: ${STRAVA_BASEURL}
   accessToken: ${STRAVA_ACCESS_TOKEN}
   clientId: ${STRAVA_CLIENT_ID}
   clientSecret: ${STRAVA_CLIENT_SECRET}
-  OAuthUrl: ${STRAVA_OAUTH_URL}
 ````
-
-| Environment Variable         | Value                                          | 
-| -----------------------------|:----------------------------------------------:| 
-| STRAVA_BASEURL               | https://www.strava.com/oauth/mobile/authorize  |
-| STRAVA_OAUTH_URL             | https://www.strava.com/oauth/token             |
 
 #### docker-compose
 

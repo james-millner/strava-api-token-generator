@@ -1,5 +1,6 @@
 package strava
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -10,6 +11,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc
 @EnableWebMvc
 @EnableScheduling
 @EnableConfigurationProperties
+@OpenAPIDefinition
 class StravaApplication
 
 fun main(args: Array<String>) =

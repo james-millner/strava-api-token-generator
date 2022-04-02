@@ -1,33 +1,6 @@
 version: '3'
 services:
 
-  strava-app:
-    image: jmillnerdev/strava-app
-    restart: always
-    environment:
-      STRAVA_GOOGLE_GEOCODING_API_KEY: ${STRAVA_GOOGLE_GEOCODING_API_KEY}
-      STRAVA_ACCESS_TOKEN: ${STRAVA_ACCESS_TOKEN}
-      STRAVA_CLIENT_ID: ${STRAVA_CLIENT_ID}
-      STRAVA_CLIENT_SECRET: ${STRAVA_CLIENT_SECRET}
-      STRAVA_URL: https://www.strava.com/oauth/mobile/authorize
-      STRAVA_OAUTH_URL: https://www.strava.com/oauth/token
-      PROFILE: docker
-    ports:
-      - "8080:8080"
-    depends_on:
-      - "mongodb"
-      - "prometheus"
-    labels:
-      kompose.service.type: LoadBalancer
-
-  mongodb-exporter:
-    image: mongodb_exporter
-    hostname: mongodb-exporter
-    ports:
-      - 9001:9001
-    # You can provide custom params to the exporter, according to your mongodb config, like SSL support, ...
-    command: -mongodb.uri mongodb://mongodb:27017/strava -mongodb.collect.database -mongodb.collect.connpoolstats -mongodb.collect.collection -mongodb.collect.profile -mongodb.collect.replset=false -mongodb.collect.oplog=false
-
   mongodb:
     image: mongo:latest
     environment:
@@ -37,7 +10,7 @@ services:
       - MONGODB_PASS="root"
     ports:
       - 27017:27017
-    command: mongod --smallfiles --logpath=/dev/null # --quiet
+    command: mongod --logpath=/dev/null # --quiet
 
   prometheus:
     image: prom/prometheus

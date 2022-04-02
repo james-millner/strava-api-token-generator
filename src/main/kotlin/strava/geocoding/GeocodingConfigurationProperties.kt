@@ -10,5 +10,6 @@ import org.springframework.stereotype.Component
 @EnableAsync
 @EnableConfigurationProperties
 data class GeocodingConfigurationProperties(
+    var enabled: Boolean? = false,
     var apiKey: String? = null
 )

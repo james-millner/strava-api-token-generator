@@ -8,12 +8,14 @@ import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
+import org.springframework.web.servlet.view.RedirectView
 import strava.auth.models.StravaToken
 import strava.auth.service.TokenService
 import strava.config.StravaConfiguration
 import strava.config.StravaOAuthTokenType
 import strava.config.getMapOfStravaRequestParameters
 import strava.util.web.ifSuccessfulRequest
+
 
 enum class GrantTypes {
     AUTHORIZATION_CODE,
@@ -32,7 +34,7 @@ class StravaAuthController(
     companion object : KLogging()
 
     @GetMapping(value = ["/get-token"])
-    fun getToken() = "redirect:" + buildTokenRefreshEndpoint(stravaConfiguration)
+    fun getToken(): RedirectView = RedirectView(buildTokenRefreshEndpoint(stravaConfiguration))
 
     @GetMapping(value = ["/auth-code"])
     @ResponseBody

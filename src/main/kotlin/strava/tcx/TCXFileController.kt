@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
+import strava.geocoding.GeocodeConfiguration
 import strava.geocoding.GeocodeService
 import strava.tcx.service.TCXReader
 import strava.util.modification.readFileToJson
@@ -16,6 +17,7 @@ import strava.util.modification.readFileToJson
 @RestController
 class TCXFileController(
     val tcxReader: TCXReader,
+    val geocodeConfiguration: GeocodeConfiguration,
     val geocodeService: GeocodeService,
     val mongoTemplate: MongoTemplate
 ) {
@@ -31,7 +33,7 @@ class TCXFileController(
 
         val xmlAsString = IOUtils.toString(file.inputStream, StandardCharsets.UTF_8.name())
 
-        return when (outputType.toLowerCase()) {
+        return when (outputType.lowercase()) {
             "json" -> readFileToJson(xmlAsString)
             "xml" -> xmlAsString
             else -> throw Exception(
@@ -48,11 +50,13 @@ class TCXFileController(
         val xmlAsString = IOUtils.toString(file.inputStream, StandardCharsets.UTF_8.name())
         val tcxObject = tcxReader.createGpxDataObjectFromJSON(xmlAsString)
 
-        val geocodeResponses = geocodeService.getAddressInformationForTcxObject(tcxObject)
+        if(geocodeConfiguration.geocodeConfigurationProperties.enabled == true) {
+            val geocodeResponses = geocodeService.getAddressInformationForTcxObject(tcxObject)
 
-        geocodeResponses.forEach { result ->
-            logger.info { result.formattedAddress + " - " + result.geometry }
-            mongoTemplate.save(result)
+            geocodeResponses.forEach { result ->
+                logger.info { result.formattedAddress + " - " + result.geometry }
+                mongoTemplate.save(result)
+            }
         }
 
         return "OK"

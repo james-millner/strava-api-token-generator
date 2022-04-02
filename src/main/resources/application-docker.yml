@@ -24,10 +24,9 @@ spring:
       fail-on-unknown-properties: false
 
 strava:
-  url: ${STRAVA_BASEURL}
   accessToken: ${STRAVA_ACCESS_TOKEN}
   clientId: ${STRAVA_CLIENT_ID}
   clientSecret: ${STRAVA_CLIENT_SECRET}
-  OAuthUrl: ${STRAVA_OAUTH_URL}
   geocoding:
+    enabled: true
     apikey: ${STRAVA_GOOGLE_GEOCODING_API_KEY}
