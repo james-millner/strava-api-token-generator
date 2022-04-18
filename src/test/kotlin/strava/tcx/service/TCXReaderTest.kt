@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 import strava.fileupload.tcx.service.TCXReader
 import strava.getResource
+import java.time.ZoneOffset
+import java.time.ZonedDateTime
 
 internal class TXCReaderTest {
 
@@ -22,21 +24,21 @@ internal class TXCReaderTest {
 
         private val tcxReader = TCXReader(objectMapper)
 
-        private val RAW_TCX_DATA = getResource("classpath:tcx/First_little_ride_with_Wahoo_.tcx")
+        private val RAW_TCX_DATA = getResource("classpath:tcx/First_little_ride_with_Wahoo.tcx")
 
         @Test
         fun `the XML is successfully parsed and converted to a GPXObject`() {
-            val obj = tcxReader.createGpxDataObjectFromJSON(RAW_TCX_DATA)
+            val obj = tcxReader.createTcxDataObjectFromJSON(RAW_TCX_DATA)
             assertAll("The objects values are correct",
                       { assertEquals("Biking", obj.trainingCenterDatabase.activities.activity.sport) },
                       { assertEquals("2019-07-28T13:16:43Z", obj.trainingCenterDatabase.activities.activity.id) },
                       {
-                          assertEquals(LocalDateTime.of(2019, 7, 28, 13, 16, 43),
+                          assertEquals(ZonedDateTime.of(LocalDateTime.of(2019, 7, 28, 13, 16, 43), ZoneOffset.UTC).toString(),
                                        obj.trainingCenterDatabase.activities.activity.lap.startTime)
                       },
                       {
                           assertEquals(790,
-                                       obj.trainingCenterDatabase.activities.activity.lap.track.trackpoints.size)
+                                       obj.trainingCenterDatabase.activities.activity.lap.track.trackpoint.size)
                       }
             )
         }

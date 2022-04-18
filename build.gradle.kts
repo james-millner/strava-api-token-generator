@@ -32,7 +32,7 @@ dependencies {
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.2")
     implementation("commons-io:commons-io:2.11.0")
-    implementation("org.json:json:20180130")
+    implementation("org.json:json:20220320")
     implementation("io.micrometer:micrometer-registry-prometheus:1.8.4")
     implementation("io.github.microutils:kotlin-logging:2.1.21")
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb:2.6.5")

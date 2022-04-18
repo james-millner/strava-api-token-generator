@@ -8,31 +8,31 @@ data class TCXObject(
     val trainingCenterDatabase: TrainingCenterDatabase
 ) {
     fun getTrackPointsFromTCXObject() = trainingCenterDatabase
-            .activities
-            .activity
-            .lap
-            .track
-            .trackpoints
+        .activities
+        .activity
+        .lap
+        .track
+        .trackpoint
 
     fun getPositionsFromTCXObjectFromTCXObject() =
-            getTrackPointsFromTCXObject().map { it.position }
+        getTrackPointsFromTCXObject().map { it.position }
 }
 
 data class TrainingCenterDatabase(
     @JsonProperty("Activities")
     val activities: Activities,
     @JsonProperty("xmlns")
-    val xmlns: String?,
+    val xmlns: String,
     @JsonProperty("xmlns:ns2")
-    val xmlnsNs2: String?,
-    @JsonProperty("xsi:schemaLocation")
-    val xsiSchemaLocation: String?,
-    @JsonProperty("xmlns:ns5")
-    val xmlnsNs5: String?,
+    val xmlnsNs2: String,
     @JsonProperty("xmlns:ns3")
-    val xmlnsNs3: String?,
+    val xmlnsNs3: String,
+    @JsonProperty("xmlns:ns5")
+    val xmlnsNs5: String,
     @JsonProperty("xmlns:xsi")
-    val xmlnsXsi: String?
+    val xmlnsXsi: String,
+    @JsonProperty("xsi:schemaLocation")
+    val xsiSchemaLocation: String
 )
 
 data class Activities(
@@ -41,69 +41,79 @@ data class Activities(
 )
 
 data class Activity(
-    @JsonProperty("Sport")
-    val sport: String?,
+    @JsonProperty("Id")
+    val id: String,
     @JsonProperty("Lap")
     val lap: Lap,
-    @JsonProperty("Id")
-    val id: String?
+    @JsonProperty("Sport")
+    val sport: String
 )
 
 data class Lap(
-    @JsonProperty("MaximumSpeed")
-    val maximumSpeed: Int,
-    @JsonProperty("MaximumHeartRateBpm")
-    val maximumHeartRateBpm: MaximumHeartRateBpm?,
-    @JsonProperty("Intensity")
-    val intensity: String,
-    @JsonProperty("StartTime")
-    val startTime: LocalDateTime,
+    @JsonProperty("AverageHeartRateBpm")
+    val averageHeartRateBpm: AverageHeartRateBpm,
     @JsonProperty("Cadence")
-    val cadence: Int?,
-    @JsonProperty("DistanceMeters")
-    val distanceMeters: Double,
-    @JsonProperty("TriggerMethod")
-    val triggerMethod: String?,
-    @JsonProperty("TotalTimeSeconds")
-    val totalTimeSeconds: Int,
+    val cadence: Int,
     @JsonProperty("Calories")
     val calories: Int,
-    @JsonProperty("AverageHeartRateBpm")
-    val averageHeartRateBpm: AverageHeartRateBpm?,
+    @JsonProperty("DistanceMeters")
+    val distanceMeters: Double,
+    @JsonProperty("Intensity")
+    val intensity: String,
+    @JsonProperty("MaximumHeartRateBpm")
+    val maximumHeartRateBpm: MaximumHeartRateBpm,
+    @JsonProperty("MaximumSpeed")
+    val maximumSpeed: Int,
+    @JsonProperty("StartTime")
+    val startTime: String,
+    @JsonProperty("TotalTimeSeconds")
+    val totalTimeSeconds: Int,
     @JsonProperty("Track")
-    val track: Track
-)
-
-data class MaximumHeartRateBpm(
-    @JsonProperty("Value")
-    val value: Int?
+    val track: Track,
+    @JsonProperty("TriggerMethod")
+    val triggerMethod: String
 )
 
 data class AverageHeartRateBpm(
     @JsonProperty("Value")
-    val value: Int?
+    val value: Int
+)
+
+data class MaximumHeartRateBpm(
+    @JsonProperty("Value")
+    val value: Int
 )
 
 data class Track(
     @JsonProperty("Trackpoint")
-    val trackpoints: List<Trackpoint>
+    val trackpoint: List<Trackpoint>
 )
 
 data class Trackpoint(
+    @JsonProperty("AltitudeMeters")
+    val altitudeMeters: Double,
+    @JsonProperty("Cadence")
+    val cadence: Int,
+    @JsonProperty("DistanceMeters")
+    val distanceMeters: Int,
+    @JsonProperty("Extensions")
+    val extensions: Extensions,
     @JsonProperty("HeartRateBpm")
-    val heartRateBpm: HeartRateBpm?,
+    val heartRateBpm: HeartRateBpm,
     @JsonProperty("Position")
     val position: Position,
-    @JsonProperty("Cadence")
-    val cadence: Int?,
     @JsonProperty("Time")
-    val time: LocalDateTime?,
-    @JsonProperty("AltitudeMeters")
-    val altitudeMeters: Int?,
-    @JsonProperty("DistanceMeters")
-    val distanceMeters: Int?,
-    @JsonProperty("Extensions")
-    val extensions: Extensions?
+    val time: String
+)
+
+data class Extensions(
+    @JsonProperty("TPX")
+    val tPX: TPX
+)
+
+data class HeartRateBpm(
+    @JsonProperty("Value")
+    val value: Int
 )
 
 data class Position(
@@ -113,19 +123,9 @@ data class Position(
     val longitudeDegrees: Double
 )
 
-data class HeartRateBpm(
-    @JsonProperty("Value")
-    val value: Int?
-)
-
-data class Extensions(
-    @JsonProperty("TPX")
-    val tPX: TPX?
-)
-
 data class TPX(
     @JsonProperty("Speed")
-    val speed: Double?,
+    val speed: Int,
     @JsonProperty("xmlns")
-    val xmlns: String?
+    val xmlns: String
 )

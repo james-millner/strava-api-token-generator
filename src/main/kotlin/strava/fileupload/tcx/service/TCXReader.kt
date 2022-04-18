@@ -8,7 +8,7 @@ import strava.util.modification.readFileToJson
 @Service
 class TCXReader(val objectMapper: ObjectMapper) {
 
-    fun createGpxDataObjectFromJSON(xml: String): TCXObject = objectMapper
+    fun createTcxDataObjectFromJSON(xml: String): TCXObject = objectMapper
             .readValue(
                     readFileToJson(xml),
                     TCXObject::class.java

@@ -36,8 +36,9 @@ class TCXFileController(
         return when (outputType.lowercase()) {
             "json" -> readFileToJson(xmlAsString)
             "xml" -> xmlAsString
+            "dataobject" -> tcxReader.createTcxDataObjectFromJSON(xmlAsString).toString()
             else -> throw Exception(
-                    "Unsupported output type. Please select from `json`, `xml`")
+                    "Unsupported output type. Please select from `json`, `xml`, `dataobject` (Produces kotlin data object.toString())")
         }
     }
 
@@ -48,7 +49,7 @@ class TCXFileController(
     ): String {
 
         val xmlAsString = IOUtils.toString(file.inputStream, StandardCharsets.UTF_8.name())
-        val tcxObject = tcxReader.createGpxDataObjectFromJSON(xmlAsString)
+        val tcxObject = tcxReader.createTcxDataObjectFromJSON(xmlAsString)
 
         if(geocodeConfiguration.geocodeConfigurationProperties.enabled == true) {
             val geocodeResponses = geocodeService.getAddressInformationForTcxObject(tcxObject)
