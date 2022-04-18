@@ -46,8 +46,10 @@ internal class GPXFileControllerTest {
         }
 
         @Test
-        fun `the GPX is successfully parsed and converted to JSON`() =
-                assertEquals(expectedRideJSONAsString.trim(), controller.handleFileUpload(userFile, "json").trim())
+        fun `the GPX is successfully parsed and converted to JSON`() {
+            assertEquals(expectedRideJSONAsString.trim(), controller.handleFileUpload(userFile, "json").trim())
+        }
+
 
         @Test
         fun `the GPX is successfully parsed and converted to a GPXObject`() =
