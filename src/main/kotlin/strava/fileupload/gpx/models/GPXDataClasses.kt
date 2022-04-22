@@ -62,7 +62,9 @@ data class Trkpt(
 
 data class Extensions(
     @JsonProperty("trackpointextension")
-    val trackpointextension: Trackpointextension?
+    val trackpointextension: Trackpointextension?,
+    @JsonProperty("power")
+    val power: Int
 )
 
 data class Trackpointextension(
