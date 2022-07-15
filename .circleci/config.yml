@@ -13,6 +13,7 @@ jobs:
     resource_class: james-millner/home-runners
     steps:
       - checkout
+      - run: whoami
       - run: ls -ls
       - run: gradle -version
 
