@@ -1,6 +1,8 @@
 version: 2.1
 workflows:
   checkout-build-test:
+    machine: true
+      resource_class: james-millner/home-runners
     jobs:
       - gradle/test
   testing:
