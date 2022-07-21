@@ -9,7 +9,6 @@ plugins {
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     kotlin("jvm") version "1.6.10"
     kotlin("plugin.spring") version "1.6.10"
-    id("com.google.cloud.tools.jib") version "3.2.1"
 }
 
 repositories {
@@ -39,9 +38,7 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-ui:1.6.6")
     implementation("com.google.maps:google-maps-services:2.0.0")
 
-
     implementation("khttp:khttp:1.0.0")
-
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
     testImplementation("org.springframework.boot:spring-boot-starter-test:2.6.5")

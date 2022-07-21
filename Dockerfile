@@ -4,8 +4,8 @@ RUN mkdir -p /app
 WORKDIR /app
 
 COPY build/libs/strava-*-SNAPSHOT.jar ./strava.jar
-COPY start-up.sh .
 
-ENTRYPOINT ["java -jar $JAVA_ARGS \"-Dspring.profiles.active=docker\" strava.jar"]
+
+CMD ["/usr/bin/java", "-jar", "-Dspring.profiles.active=default", "strava.jar"]
 
 EXPOSE 8080
