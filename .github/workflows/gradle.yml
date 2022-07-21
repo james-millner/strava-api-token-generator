@@ -36,3 +36,5 @@ jobs:
       uses: gradle/gradle-build-action@v2
       with:
         arguments: build
+    - name: Docker build
+      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)

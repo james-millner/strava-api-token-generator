@@ -5,7 +5,6 @@ WORKDIR /app
 
 COPY build/libs/strava-*-SNAPSHOT.jar ./strava.jar
 
-
 CMD ["/usr/bin/java", "-jar", "-Dspring.profiles.active=default", "strava.jar"]
 
 EXPOSE 8080
