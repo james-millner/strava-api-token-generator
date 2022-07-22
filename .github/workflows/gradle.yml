@@ -36,10 +36,9 @@ jobs:
 
     - name: Setup Gradle
       uses: gradle/gradle-build-action@v2
-      with:
-        arguments: build
+
     - name: Execute Gradle build
-      run: ./gradlew clean build
+      run: ./gradlew clean build jibDockerBuild
 
     - name: Upload build reports
       uses: actions/upload-artifact@v3
