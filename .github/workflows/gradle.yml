@@ -37,10 +37,7 @@ jobs:
     - name: Setup Gradle
       uses: gradle/gradle-build-action@v2
       with:
-        arguments: |
-          - clean
-          - test
-
+        arguments: build
     - name: Execute Gradle build
       run: ./gradlew clean build
 
