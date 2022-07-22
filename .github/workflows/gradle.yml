@@ -34,11 +34,12 @@ jobs:
         distribution: 'temurin'
     - name: Build with Gradle
 
-    - name: Setup Gradle
+    - name: Build with Gradle
       uses: gradle/gradle-build-action@v2
+      with:
+        arguments: build
 
-    - name: Execute Gradle build
-      run: ./gradlew clean build
+    - run: gradle build --dry-run # just test build configuration
 
     - name: Upload build reports
       uses: actions/upload-artifact@v3
