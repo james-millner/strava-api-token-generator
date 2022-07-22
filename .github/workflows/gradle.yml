@@ -37,23 +37,12 @@ jobs:
     - name: Setup Gradle
       uses: gradle/gradle-build-action@v2
 
-    - name: Who am I?
-      run: whoami
-
-    - name: Setup Docker
-      uses: james-millner/actions-setup-docker@master
-
     - name: Execute Gradle build
-      run: ./gradlew clean build jibDockerBuild
+      run: ./gradlew clean build
 
     - name: Upload build reports
       uses: actions/upload-artifact@v3
       with:
         name: test-report
         path: build/reports/tests/test
-
-    - name: Check docker images
-      run: |
-        docker version
-        docker images
 
