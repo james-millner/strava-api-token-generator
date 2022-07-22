@@ -38,7 +38,7 @@ jobs:
       uses: gradle/gradle-build-action@v2
 
     - name: Setup Docker
-      uses: docker-practice/actions-setup-docker@v1
+      uses: james-millner/actions-setup-docker@master
 
     - name: Execute Gradle build
       run: ./gradlew clean build jibDockerBuild
