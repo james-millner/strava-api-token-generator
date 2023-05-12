@@ -1,6 +1,6 @@
 ### Kotlin Strava Spring Boot Application
 
-[![Java CI with Gradle](https://github.com/james-millner/kotlin-strava-app/actions/workflows/gradle.yml/badge.svg?branch=master)](https://github.com/james-millner/kotlin-strava-app/actions/workflows/gradle.yml)
+[![Java CI with Gradle](https://github.com/james-millner/kotlin-strava-app/actions/workflows/gradle.yml/badge.svg)](https://github.com/james-millner/kotlin-strava-app/actions/workflows/gradle.yml)
 
 A simple Kotlin Spring Boot app designed as a bit of a playground for the Strava API.
 
