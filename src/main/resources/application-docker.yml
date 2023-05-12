@@ -10,11 +10,6 @@ spring:
   servlet:
     multipart:
       max-file-size: 10MB
-  data:
-    mongodb:
-      host: mongodb
-      port: 27017
-      database: Strava
   jackson:
     serialization:
       indent-output: true

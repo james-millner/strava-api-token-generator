@@ -5,12 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import io.mockk.mockk
 import org.junit.jupiter.api.*
-import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.mock.web.MockMultipartFile
 import strava.fileupload.tcx.TCXFileController
 import strava.fileupload.tcx.service.TCXReader
-import strava.geocoding.GeocodeConfiguration
-import strava.geocoding.GeocodeService
 import strava.getResource
 
 
@@ -25,11 +22,7 @@ internal class TCXFileControllerTest {
 
         private val tcxReader = TCXReader(objectMapper)
 
-        private val mockGeoConfig = mockk<GeocodeConfiguration>()
-        private val mockGeocodeService = mockk<GeocodeService>()
-        private val mockMongoTemplate = mockk<MongoTemplate>()
-
-        private val controller = TCXFileController(tcxReader, mockGeoConfig, mockGeocodeService, mockMongoTemplate)
+        private val controller = TCXFileController(tcxReader)
 
         private val expectTCXAsXML = getResource(
             "classpath:tcx/First_little_ride_with_Wahoo.tcx")

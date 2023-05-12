@@ -4,22 +4,16 @@ import io.micrometer.core.annotation.Timed
 import java.nio.charset.StandardCharsets
 import mu.KLogging
 import org.apache.commons.io.IOUtils
-import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
-import strava.geocoding.GeocodeConfiguration
-import strava.geocoding.GeocodeService
 import strava.fileupload.tcx.service.TCXReader
 import strava.util.modification.readFileToJson
 
 @RestController
 class TCXFileController(
-    val tcxReader: TCXReader,
-    val geocodeConfiguration: GeocodeConfiguration,
-    val geocodeService: GeocodeService,
-    val mongoTemplate: MongoTemplate
+    val tcxReader: TCXReader
 ) {
 
     companion object : KLogging()
@@ -40,26 +34,5 @@ class TCXFileController(
             else -> throw Exception(
                     "Unsupported output type. Please select from `json`, `xml`, `dataobject` (Produces kotlin data object.toString())")
         }
-    }
-
-    @Timed(histogram = true)
-    @PostMapping("/strava/tcx/process-file")
-    fun handleFileUpload(
-        @RequestParam("file") file: MultipartFile
-    ): String {
-
-        val xmlAsString = IOUtils.toString(file.inputStream, StandardCharsets.UTF_8.name())
-        val tcxObject = tcxReader.createTcxDataObjectFromJSON(xmlAsString)
-
-        if(geocodeConfiguration.geocodeConfigurationProperties.enabled == true) {
-            val geocodeResponses = geocodeService.getAddressInformationForTcxObject(tcxObject)
-
-            geocodeResponses.forEach { result ->
-                logger.info { result.formattedAddress + " - " + result.geometry }
-                mongoTemplate.save(result)
-            }
-        }
-
-        return "OK"
     }
 }

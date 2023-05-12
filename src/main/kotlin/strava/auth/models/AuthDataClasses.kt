@@ -2,10 +2,7 @@ package strava.auth.models
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import org.springframework.data.annotation.Id
-import org.springframework.data.mongodb.core.mapping.Document
 
-@Document
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class StravaToken(
     @JsonProperty("token_type")
@@ -21,7 +18,7 @@ data class StravaToken(
     var refreshToken: String,
 
     @JsonProperty("access_token")
-    @Id var accessToken: String
+    var accessToken: String
 ) {
     override fun equals(other: Any?): Boolean {
         if (other == null || other !is StravaToken) {

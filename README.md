@@ -6,7 +6,11 @@ A simple Kotlin Spring Boot app designed as a bit of a playground for the Strava
 
 The app is very much a work in progress and its only purpose is to be a side project to play with Kotlin.
 
-This application current provides you the mechanism to get a Strava API token for further interaction with the API.
+This application current provides you with: 
+
+* The mechanism to get a Strava API token for further interaction with the API.
+* A GPX API to upload / convert that into JSON format
+* A TCX API to upload / convert that into JSON format
 
 ### Requirements
 

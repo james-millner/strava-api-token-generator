@@ -27,7 +27,6 @@ dependencies {
     implementation(platform("org.springframework.boot:spring-boot-dependencies:3.0.6"))
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     implementation("io.micrometer:micrometer-registry-prometheus")
 
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.8.21")
