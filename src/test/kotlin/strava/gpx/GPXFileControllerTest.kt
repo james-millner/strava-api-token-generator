@@ -25,12 +25,17 @@ internal class GPXFileControllerTest {
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
         private val gpxReader = GPXReader(objectMapper)
-
         private val controller = GPXFileController(gpxReader)
 
         private val expectedRideJSONAsString = getResource(
                 "classpath:successful-responses/afternoon-huddersfield-ride.json")
         private val expectedRideAsXML = getResource("classpath:gpx/afternoon-huddersfield-ride.gpx")
+
+
+        private val expectedRideAsXMLSundaySunsetAsJson = getResource(
+                "classpath:successful-responses/Sunday_Sunset.json")
+        private val expectedRideAsXMLSundaySunset = getResource("classpath:gpx/Sunday_Sunset_fuelled_by_.gpx")
+
         private val afternoonRideJSONString = gpxReader.pruneGPXJson(readFileToJson(expectedRideAsXML))
 
         private val expectedObject = gpxReader.createGpxDataObjectFromJSON(expectedRideAsXML)
@@ -50,6 +55,13 @@ internal class GPXFileControllerTest {
             assertEquals(expectedRideJSONAsString.trim(), controller.handleFileUpload(userFile, "json").trim())
         }
 
+        @Test
+        fun `another GPX is successfully parsed and converted to JSON`() {
+            val file = MockMultipartFile("file", "orig", "text/plain;charset=UTF-8",
+                    expectedRideAsXMLSundaySunset.toByteArray())
+            assertEquals(expectedRideAsXMLSundaySunsetAsJson.trim(), controller.handleFileUpload(file, "json").trim())
+
+        }
 
         @Test
         fun `the GPX is successfully parsed and converted to a GPXObject`() =
