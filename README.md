@@ -4,17 +4,15 @@
 
 A simple Kotlin Spring Boot app designed as a bit of a playground for the Strava API.
 
-The app has a variety of API endpoints available to use. To find out more about these, boot up the app and head to:
-
-`http://localhost:8080/swagger-ui.html`
-
 The app is very much a work in progress and its only purpose is to be a side project to play with Kotlin.
+
+This application current provides you the mechanism to get a Strava API token for further interaction with the API.
 
 ### Requirements
 
 * Docker
 * \>= JDK 8 
-  * JDK 15 Recommended
+  * JDK 19 Recommended
 
 ### Build app & Docker Image
 
@@ -44,9 +42,4 @@ strava:
 
 #### docker-compose
 
-1. `STRAVA_BASEURL=X STRAVA_ACCESS_TOKEN=J... docker-compose up`
-
-#### Kubernetes
-This step currently requires Kompose to be installed. This can be found at https://kompose.io
-
-1. `STRAVA_BASEURL=X STRAVA_ACCESS_TOKEN=J... kompose up`
+1. `STRAVA_BASEURL=X STRAVA_ACCESS_TOKEN=J... docker compose up`
