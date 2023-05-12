@@ -24,11 +24,11 @@ spring:
       fail-on-unknown-properties: false
 
 strava:
-  url: https://www.strava.com/oauth/mobile/authorize
+  url: https://www.strava.com/oauth/authorize
   accessToken: ${STRAVA_ACCESS_TOKEN}
   clientId: ${STRAVA_CLIENT_ID}
   clientSecret: ${STRAVA_CLIENT_SECRET}
-  OAuthUrl: https://www.strava.com/oauth/token
+  OAuthUrl: https://www.strava.com/api/v3/oauth/token
   geocoding:
     enabled: false
     apikey: ${STRAVA_GOOGLE_GEOCODING_API_KEY}

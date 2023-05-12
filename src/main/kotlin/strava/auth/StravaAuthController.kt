@@ -1,8 +1,9 @@
 package strava.auth
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import khttp.post
 import mu.KLogging
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
@@ -10,12 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.servlet.view.RedirectView
 import strava.auth.models.StravaToken
-import strava.auth.service.TokenService
 import strava.config.StravaConfiguration
 import strava.config.StravaOAuthTokenType
 import strava.config.getMapOfStravaRequestParameters
-import strava.util.web.ifSuccessfulRequest
-
+import strava.util.web.toFormBody
 
 enum class GrantTypes {
     AUTHORIZATION_CODE,
@@ -25,11 +24,8 @@ enum class GrantTypes {
 @Controller
 class StravaAuthController(
     val stravaConfiguration: StravaConfiguration,
-    val tokenService: TokenService,
     val objectMapper: ObjectMapper
 ) {
-
-    val cache = stravaConfiguration.tokenCache
 
     companion object : KLogging()
 
@@ -42,28 +38,27 @@ class StravaAuthController(
 
         val authUrl = stravaConfiguration.OAuthUrl ?: throw Exception("OAuth URL Properly not set correctly.")
 
-        val parameters = stravaConfiguration.getMapOfStravaRequestParameters(
+        val body = stravaConfiguration.getMapOfStravaRequestParameters(
                 GrantTypes.AUTHORIZATION_CODE,
                 authCode,
                 StravaOAuthTokenType.CODE
-        )
+        ).toFormBody()
 
-        val response = post(url = authUrl, params = parameters)
-        logger.info { "Get authentication token: $response.statusCode" }
+        val response = OkHttpClient().newCall(
+            request = Request.Builder()
+                        .url(authUrl)
+                        .post(body)
+                        .build()
+        ).execute()
 
-        return if (ifSuccessfulRequest(response)) {
+        logger.info { "Get authentication token: ${response.code}" }
 
-            val stravaToken = objectMapper.readValue(response.text, StravaToken::class.java)
+        return if (response.isSuccessful) {
+
+            val stravaToken = objectMapper.readValue(response.body?.string(), StravaToken::class.java)
                     ?: throw Exception("Error with token...")
 
-            cache.cacheStravaToken(stravaToken)
-
-            val token = when (tokenService.existsByRefreshToken(stravaToken.refreshToken)) {
-                true -> cache.getStravaToken(stravaToken)
-                false -> cache.getStravaToken(tokenService.save(stravaToken))
-            } ?: throw Exception("Unable to get Strava Token")
-
-            ResponseEntity.ok().body(token)
+            ResponseEntity.ok().body(stravaToken)
         } else {
             ResponseEntity.badRequest().build()
         }
@@ -71,30 +66,30 @@ class StravaAuthController(
 
     @GetMapping(value = ["/refresh-token"])
     @ResponseBody
-    fun refreshToken(@RequestParam("token") refreshToken: String): Any? {
+    fun refreshToken(@RequestParam("token") refreshToken: String): ResponseEntity<StravaToken> {
 
         val authUrl = stravaConfiguration.OAuthUrl ?: throw Exception("OAuth URL Properly not set correctly.")
 
-        val parameters = stravaConfiguration.getMapOfStravaRequestParameters(
+        val body = stravaConfiguration.getMapOfStravaRequestParameters(
                 GrantTypes.REFRESH_TOKEN,
                 refreshToken,
                 StravaOAuthTokenType.REFRESH_TOKEN
-        )
+        ).toFormBody()
 
-        val response = post(url = authUrl, params = parameters)
+        val response = OkHttpClient().newCall(
+                request = Request.Builder()
+                        .url(authUrl)
+                        .post(body)
+                        .build()
+        ).execute()
+
         logger.info { "Refresh token: $response.statusCode" }
-        return if (ifSuccessfulRequest(response)) {
+        return if (response.isSuccessful) {
 
-            val stravaTokenResponse = objectMapper.readValue(response.text, StravaToken::class.java)
-
-            tokenService.deleteByRefreshToken(stravaTokenResponse.refreshToken)
-
-            val persistedToken = tokenService.save(stravaTokenResponse)
-
-            cache.cacheStravaToken(persistedToken)
-                    .run { cache.getStravaToken(persistedToken) }
+            val stravaTokenResponse = objectMapper.readValue(response.body?.string(), StravaToken::class.java)
+            ResponseEntity.ok().body(stravaTokenResponse)
         } else {
-            response
+            ResponseEntity.badRequest().build()
         }
     }
 }

@@ -1,15 +1,11 @@
 package strava.util.web
 
-import khttp.responses.Response
+import okhttp3.FormBody
 
-fun ifSuccessfulRequest(response: Response): Boolean =
-        response.statusCode == 200
 
-fun buildHeaders(token: String): Map<String, String> =
-        mapOf("Authorization" to "Bearer $token")
-
-fun getEndpointUrl(url: String, endpoint: String) =
-        StringBuilder()
-                .append(url)
-                .append(endpoint)
-                .toString()
+fun Map<String, String>.toFormBody(): FormBody {
+    val map = this
+    return FormBody.Builder().apply {
+        map.forEach { (key, value) -> add(key, value) }
+    }.build()
+}

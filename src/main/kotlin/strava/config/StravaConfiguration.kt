@@ -5,7 +5,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.scheduling.annotation.EnableAsync
 import org.springframework.stereotype.Component
 import strava.auth.GrantTypes
-import strava.auth.cache.TokenCache
 
 @Component
 @ConfigurationProperties(prefix = "strava")
@@ -18,8 +17,7 @@ data class StravaConfiguration(
     var authorizationCode: String? = null,
     var url: String? = null,
     var OAuthUrl: String? = null,
-    val stravaApiBaseUrl: String = "https://www.strava.com/api/v3/",
-    val tokenCache: TokenCache = TokenCache()
+    val stravaApiBaseUrl: String = "https://www.strava.com/api/v3/"
 )
 
 enum class StravaOAuthTokenType {
