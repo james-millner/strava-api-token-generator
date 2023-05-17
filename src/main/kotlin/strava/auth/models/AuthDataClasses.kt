@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class StravaToken(
+data class SuccessfulStravaToken(
     @JsonProperty("token_type")
     var tokenType: String,
 
@@ -19,9 +19,9 @@ data class StravaToken(
 
     @JsonProperty("access_token")
     var accessToken: String
-) {
+): StravaTokenResponse() {
     override fun equals(other: Any?): Boolean {
-        if (other == null || other !is StravaToken) {
+        if (other == null || other !is SuccessfulStravaToken) {
             return false
         }
 
@@ -32,3 +32,11 @@ data class StravaToken(
         return refreshToken.hashCode()
     }
 }
+
+data class FailedStravaToken(
+    @JsonProperty("status_code")
+    val statusCode: Int,
+    val message: String
+): StravaTokenResponse()
+
+sealed class StravaTokenResponse

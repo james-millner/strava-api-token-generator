@@ -9,7 +9,7 @@ plugins {
     id("io.spring.dependency-management") version "1.1.0"
     kotlin("jvm") version "1.8.21"
     kotlin("plugin.spring") version "1.8.21"
-    id("com.google.cloud.tools.jib") version "3.2.1"
+    id("com.google.cloud.tools.jib") version "3.3.2"
 }
 
 repositories {
@@ -32,11 +32,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.8.21")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.21")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.2")
-    implementation("commons-io:commons-io:2.11.0")
-    implementation("org.json:json:20220320")
     implementation("io.github.microutils:kotlin-logging:3.0.5")
-    implementation("org.springdoc:springdoc-openapi-ui:1.6.6")
-    implementation("com.google.maps:google-maps-services:2.0.0")
     implementation("com.squareup.okhttp3:okhttp:4.11.0")
 
     //Test
@@ -47,8 +43,29 @@ dependencies {
 
 group = "com.jm"
 version = "0.0.1-SNAPSHOT"
-description = "strava"
+description = "strava-token-generator"
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of("19"))
+    }
+}
+
+jib {
+    to {
+        image = "jmillnerdev/strava-token-generator"
+    }
+    from {
+        image = "eclipse-temurin:19.0.2_7-jre-jammy"
+        platforms {
+            platform {
+                os = "linux"
+                architecture = "arm64"
+            }
+        }
+    }
 }

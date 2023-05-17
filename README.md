@@ -1,16 +1,15 @@
-### Kotlin Strava Spring Boot Application
+### Strava Token Generator
 
 [![Java CI with Gradle](https://github.com/james-millner/kotlin-strava-app/actions/workflows/gradle.yml/badge.svg)](https://github.com/james-millner/kotlin-strava-app/actions/workflows/gradle.yml)
 
-A simple Kotlin Spring Boot app designed as a bit of a playground for the Strava API.
+What started as a simple Kotlin Spring Boot app designed as a bit of a playground for the Strava API, has become a small system to generate Strava API tokens.
 
-The app is very much a work in progress and its only purpose is to be a side project to play with Kotlin.
+The app is very much a work in progress, and is being developed in my spare time.
 
 This application current provides you with: 
 
 * The mechanism to get a Strava API token for further interaction with the API.
-* A GPX API to upload / convert that into JSON format
-* A TCX API to upload / convert that into JSON format
+  * Documentation incoming
 
 ### Requirements
 
@@ -25,7 +24,7 @@ This application current provides you with:
 
 ````
 docker images | grep strava
-jmillnerdev/strava-app                     latest              e6b002a72934        About a minute ago   148MB
+jmillnerdev/strava-token-generator                   latest              e6b002a72934        About a minute ago   297MB
 ````
 
 ### Docker Hub
@@ -43,7 +42,3 @@ strava:
   clientId: ${STRAVA_CLIENT_ID}
   clientSecret: ${STRAVA_CLIENT_SECRET}
 ````
-
-#### docker-compose
-
-1. `STRAVA_BASEURL=X STRAVA_ACCESS_TOKEN=J... docker compose up`

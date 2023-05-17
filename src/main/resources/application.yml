@@ -20,10 +20,7 @@ spring:
 
 strava:
   url: https://www.strava.com/oauth/authorize
-  accessToken: ${STRAVA_ACCESS_TOKEN}
-  clientId: ${STRAVA_CLIENT_ID}
-  clientSecret: ${STRAVA_CLIENT_SECRET}
+  accessToken: ${STRAVA_ACCESS_TOKEN:pleasefillmein}
+  clientId: ${STRAVA_CLIENT_ID:pleasefillmein}
+  clientSecret: ${STRAVA_CLIENT_SECRET:pleasefillmein}
   OAuthUrl: https://www.strava.com/api/v3/oauth/token
-  geocoding:
-    enabled: false
-    apikey: ${STRAVA_GOOGLE_GEOCODING_API_KEY}
