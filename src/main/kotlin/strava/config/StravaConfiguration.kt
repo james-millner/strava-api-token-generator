@@ -11,7 +11,6 @@ import strava.auth.GrantTypes
 @EnableAsync
 @EnableConfigurationProperties
 data class StravaConfiguration(
-    var accessToken: String? = null,
     var clientId: String? = null,
     var clientSecret: String? = null,
     var authorizationCode: String? = null,

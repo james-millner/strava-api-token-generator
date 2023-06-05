@@ -31,12 +31,10 @@ class StravaApplicationTest {
     @Test
     fun `The application configuration properties are injected correctly`() {
         assertNotNull(stravaConfiguration.url)
-        assertNotNull(stravaConfiguration.accessToken)
         assertNotNull(stravaConfiguration.clientId)
         assertNotNull(stravaConfiguration.clientSecret)
 
         assertEquals("https://www.strava.com/oauth/mobile/authorize", stravaConfiguration.url)
-        assertEquals("test", stravaConfiguration.accessToken)
         assertEquals("12345", stravaConfiguration.clientId)
         assertEquals("test", stravaConfiguration.clientSecret)
     }

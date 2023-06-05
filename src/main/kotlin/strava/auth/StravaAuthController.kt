@@ -59,7 +59,7 @@ class StravaAuthController(
         logger.debug { "Get authentication token: ${response.code}, ${response.message}" }
 
         return if (response.isSuccessful) {
-
+            logger.info { "Token generated." }
             val stravaToken = objectMapper.readValue(response.body?.string(), SuccessfulStravaToken::class.java)
                     ?: throw Exception("Error with token...")
 

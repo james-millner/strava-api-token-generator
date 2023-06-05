@@ -38,7 +38,6 @@ The strava app has some defined configuration that needs to be injected before r
 
 ````
 strava:
-  accessToken: ${STRAVA_ACCESS_TOKEN}
   clientId: ${STRAVA_CLIENT_ID}
   clientSecret: ${STRAVA_CLIENT_SECRET}
 ````
