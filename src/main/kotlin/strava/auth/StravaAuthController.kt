@@ -126,7 +126,7 @@ fun createStravaTokenErrorMessage(response: Response) =
 fun buildTokenRefreshEndpoint(stravaConfiguration: StravaConfiguration): String {
     return StringBuilder().append(stravaConfiguration.url)
             .append("?client_id=" + stravaConfiguration.clientId)
-            .append("&redirect_uri=http://localhost:8080/auth-code")
+            .append("&redirect_uri=http://localhost:5650/auth-code")
             .append("&response_type=code")
             .append("&approval_prompt=force")
             .append("&scope=read,activity:read_all,profile:read_all,read_all")

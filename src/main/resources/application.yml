@@ -1,3 +1,5 @@
+
+
 management:
   endpoints:
     prometheus:
@@ -23,3 +25,5 @@ strava:
   clientId: ${STRAVA_CLIENT_ID:pleasefillmein}
   clientSecret: ${STRAVA_CLIENT_SECRET:pleasefillmein}
   OAuthUrl: https://www.strava.com/api/v3/oauth/token
+server:
+  port: 5650
